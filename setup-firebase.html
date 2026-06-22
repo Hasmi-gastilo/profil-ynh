@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔧 Firebase Setup Helper — LPI Nurul Huda</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+  <!-- SETUP HELPER v2 - bypass Firestore rules issue -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0F1C2E 0%, #1B4F8A 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 540px;
+      width: 100%;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #1B4F8A;
+      margin-top: 12px;
+    }
+
+    .logo p {
+      font-size: 0.85rem;
+      color: #64748B;
+      margin-top: 4px;
+    }
+
+    .step {
+      background: #F8FAFC;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-left: 4px solid #1B4F8A;
+    }
+
+    .step-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1B4F8A;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      background: #1B4F8A;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      outline: none;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      border-color: #1B4F8A;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #1B4F8A, #2563B0);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(27, 79, 138, 0.3);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .log {
+      background: #0F172A;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 16px;
+      min-height: 120px;
+      max-height: 280px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .log-entry {
+      font-family: monospace;
+      font-size: 0.82rem;
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .log-entry.ok {
+      color: #4ADE80;
+    }
+
+    .log-entry.err {
+      color: #F87171;
+    }
+
+    .log-entry.info {
+      color: #93C5FD;
+    }
+
+    .log-entry.warn {
+      color: #FCD34D;
+    }
+
+    .success-box {
+      display: none;
+      background: #F0FDF4;
+      border: 2px solid #16A34A;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .success-box h3 {
+      color: #16A34A;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .success-box p {
+      font-size: 0.85rem;
+      color: #374151;
+    }
+
+    .success-box a {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: #1B4F8A;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .alert {
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.8rem;
+      color: #92400E;
+      margin-bottom: 12px;
+    }
+
+    .already-done {
+      display: none;
+      background: #EFF6FF;
+      border: 1px solid #93C5FD;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.82rem;
+      color: #1E40AF;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="logo">
+      <i class="fas fa-fire" style="font-size:3rem;color:#F97316;"></i>
+      <h1>Firebase Setup Helper</h1>
+      <p>LPI Nurul Huda Kapedi — Setup Otomatis</p>
+    </div>
+
+    <div class="step">
+      <div class="step-title">
+        <div class="step-num">1</div> Data Super Admin
+      </div>
+      <div class="alert">
+        ⚠️ Gunakan email & password yang akan Anda gunakan untuk login ke panel admin.
+      </div>
+      <label>Nama Lengkap Admin</label>
+      <input type="text" id="adminName" placeholder="Contoh: Ahmad Hasmi" value="" />
+      <label>Email Admin</label>
+      <input type="email" id="adminEmail" placeholder="admin@LPI-nurulhuda.sch.id" />
+      <label>Password Admin (minimal 6 karakter)</label>
+      <input type="password" id="adminPwd" placeholder="Password kuat..." />
+    </div>
+
+    <div class="step">
+      <div class="step-title">
+        <div class="step-num">2</div> Jalankan Setup
+      </div>
+      <p style="font-size:0.82rem;color:#64748B;margin-bottom:12px;">
+        Tombol ini akan membuat akun admin, menyimpan data di Firestore, dan mengkonfigurasi database secara otomatis.
+      </p>
+      <button class="btn" id="setupBtn" onclick="runSetup()">
+        <i class="fas fa-rocket"></i> Mulai Setup Otomatis
+      </button>
+    </div>
+
+    <div class="log" id="logBox"></div>
+
+    <div class="success-box" id="successBox">
+      <h3>🎉 Setup Berhasil!</h3>
+      <p>Akun super admin sudah dibuat dan Firestore sudah dikonfigurasi.<br />
+        Sekarang Anda bisa login ke panel admin.</p>
+      <a href="admin/login.html">
+        <i class="fas fa-sign-in-alt"></i> Buka Panel Admin
+      </a>
+      <div class="already-done" id="alreadyDone">
+        <strong>Info:</strong> Akun sudah ada sebelumnya, Firestore tetap diupdate.
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile }
+      from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { getFirestore, doc, setDoc, getDoc, serverTimestamp }
+      from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    import firebaseConfig from './assets/js/firebase-config.js';
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const logBox = document.getElementById('logBox');
+
+    function log(msg, type = 'info') {
+      logBox.style.display = 'block';
+      const el = document.createElement('div');
+      el.className = `log-entry ${type}`;
+      const icons = { ok: '✅', err: '❌', info: '→', warn: '⚠️' };
+      el.textContent = `${icons[type] || '→'} ${msg}`;
+      logBox.appendChild(el);
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    window.runSetup = async function () {
+      const name = document.getElementById('adminName').value.trim();
+      const email = document.getElementById('adminEmail').value.trim();
+      const pwd = document.getElementById('adminPwd').value;
+
+      if (!email || !pwd) {
+        log('Email dan password wajib diisi!', 'err');
+        return;
+      }
+      if (pwd.length < 6) {
+        log('Password minimal 6 karakter!', 'err');
+        return;
+      }
+      if (!email.includes('@')) {
+        log('Format email tidak valid!', 'err');
+        return;
+      }
+
+      const btn = document.getElementById('setupBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sedang proses...';
+
+      log(`Memulai setup untuk: ${email}`, 'info');
+
+      let uid = null;
+      let isExisting = false;
+
+      // Step 1: Buat user Auth
+      try {
+        log('Membuat akun di Firebase Authentication...', 'info');
+        const cred = await createUserWithEmailAndPassword(auth, email, pwd);
+        uid = cred.user.uid;
+        if (name) await updateProfile(cred.user, { displayName: name });
+        log(`Akun berhasil dibuat! UID: ${uid}`, 'ok');
+      } catch (err) {
+        if (err.code === 'auth/email-already-in-use') {
+          log('Email sudah terdaftar, mencoba login...', 'warn');
+          try {
+            const cred = await signInWithEmailAndPassword(auth, email, pwd);
+            uid = cred.user.uid;
+            isExisting = true;
+            log(`Login berhasil! UID: ${uid}`, 'ok');
+          } catch (loginErr) {
+            log(`Gagal login: ${loginErr.message}`, 'err');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-rocket"></i> Coba Lagi';
+            return;
+          }
+        } else {
+          log(`Error Auth: ${err.message}`, 'err');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-rocket"></i> Coba Lagi';
+          return;
+        }
+      }
+
+      // Step 2: Simpan data user di Firestore
+      try {
+        log('Menyimpan data admin ke Firestore...', 'info');
+        const userRef = doc(db, 'users', uid);
+        const existing = await getDoc(userRef);
+
+        await setDoc(userRef, {
+          email: email,
+          displayName: name || email.split('@')[0],
+          role: 'superadmin',
+          createdAt: existing.exists() ? existing.data().createdAt : serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        }, { merge: true });
+
+        log('Data admin berhasil disimpan di Firestore!', 'ok');
+      } catch (err) {
+        log(`Error Firestore: ${err.message}`, 'err');
+        log('Hint: Pastikan Firestore sudah diaktifkan di Firebase Console', 'warn');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-rocket"></i> Coba Lagi';
+        return;
+      }
+
+      // Step 3: Simpan data pengaturan awal
+      try {
+        log('Menyimpan pengaturan website awal...', 'info');
+        const settingsRef = doc(db, 'settings', 'general');
+        const settingsExist = await getDoc(settingsRef);
+        if (!settingsExist.exists()) {
+          await setDoc(settingsRef, {
+            siteName: 'Yayasan Pendidikan Islam Nurul Huda Kapedi',
+            siteShortName: 'LPI Nurul Huda',
+            tagline: 'Mencetak Generasi Islam yang Berilmu, Beriman, dan Berakhlak Mulia',
+            metaDescription: 'Website resmi Yayasan Pendidikan Islam Nurul Huda Kapedi, Sumenep, Madura.',
+            primaryColor: '#1B4F8A',
+            createdAt: serverTimestamp(),
+          });
+          log('Pengaturan website awal disimpan!', 'ok');
+        } else {
+          log('Pengaturan website sudah ada, dilewati.', 'info');
+        }
+      } catch (err) {
+        log(`Pengaturan website gagal (tidak kritis): ${err.message}`, 'warn');
+      }
+
+      // Step 4: Simpan data kontak awal
+      try {
+        log('Menyimpan data kontak awal...', 'info');
+        const kontakRef = doc(db, 'kontak', 'info');
+        const kontakExist = await getDoc(kontakRef);
+        if (!kontakExist.exists()) {
+          await setDoc(kontakRef, {
+            address: 'Kapedi, Bluto, Sumenep, Madura, Jawa Timur',
+            phone: '',
+            whatsapp: '',
+            email: '',
+            googleMapsEmbed: '',
+            facebook: '', instagram: '', tiktok: '', youtube: '', twitter: '',
+            createdAt: serverTimestamp(),
+          });
+          log('Data kontak awal disimpan!', 'ok');
+        } else {
+          log('Data kontak sudah ada, dilewati.', 'info');
+        }
+      } catch (err) {
+        log(`Data kontak gagal (tidak kritis): ${err.message}`, 'warn');
+      }
+
+      // Selesai!
+      log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'info');
+      log('🎉 SETUP SELESAI! Semua berhasil dikonfigurasi.', 'ok');
+      log(`UID Super Admin: ${uid}`, 'ok');
+
+      const successBox = document.getElementById('successBox');
+      successBox.style.display = 'block';
+      if (isExisting) {
+        document.getElementById('alreadyDone').style.display = 'block';
+      }
+
+      btn.innerHTML = '<i class="fas fa-check"></i> Setup Selesai!';
+      btn.style.background = '#16A34A';
+    };
+  </script>
+</body>
+
+</html>

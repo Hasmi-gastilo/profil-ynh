@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Galeri foto kegiatan dan momen berharga LPI Nurul Huda Kapedi." />
+  <title>Galeri — LPI Nurul Huda Kapedi</title>
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+  <link rel="stylesheet" href="assets/css/style.css?v=12" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-brand"><img src="assets/images/logo.png" class="navbar-logo" alt="Logo"
+          id="navLogo" />
+        <div class="navbar-brand-text"><span class="navbar-brand-name" id="navBrandName">LPI Nurul Huda</span><span
+            class="navbar-brand-sub">Kapedi</span></div>
+      </a>
+      <ul class="navbar-nav">
+        <li><a href="index.html" class="nav-link">Beranda</a></li>
+        <li><a href="profil.html" class="nav-link">Profil</a></li>
+        <li><a href="berita.html" class="nav-link">Berita</a></li>
+        <li><a href="prestasi.html" class="nav-link">Prestasi</a></li>
+        <li><a href="galeri.html" class="nav-link active">Galeri</a></li>
+        <li><a href="ppdb.html" class="nav-link">PPDB</a></li>
+        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+        <li><a href="kontak.html" class="nav-link">Kontak</a></li>
+      </ul>
+      <div class="navbar-actions"><button class="btn-dark-toggle" id="darkToggle"><i class="fas fa-moon"></i></button><a
+          href="ppdb.html" class="btn-daftar">Daftar</a><button class="navbar-toggle"
+          id="navToggle"><span></span><span></span><span></span></button></div>
+    </div>
+  </nav>
+  <div class="navbar-mobile" id="mobileNav">
+    <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Beranda</a><a href="profil.html" class="nav-link"><i class="fas fa-school"></i> Profil</a><a
+      href="berita.html" class="nav-link"><i class="fas fa-newspaper"></i> Berita</a><a href="prestasi.html" class="nav-link"><i class="fas fa-trophy"></i> Prestasi</a><a
+      href="galeri.html" class="nav-link active"><i class="fas fa-images"></i> Galeri</a><a href="ppdb.html" class="nav-link"><i class="fas fa-file-alt"></i> PPDB</a><a
+      href="faq.html" class="nav-link"><i class="fas fa-question-circle"></i> FAQ</a><a href="kontak.html" class="nav-link"><i class="fas fa-phone"></i> Kontak</a>
+  </div>
+
+  <div class="page-hero">
+    <div class="container">
+      <h1 class="page-hero-title">Galeri Foto</h1>
+      <p class="page-hero-subtitle">Momen-momen berharga kegiatan di LPI Nurul Huda Kapedi</p>
+      <nav class="breadcrumb"><a href="index.html">Beranda</a><span class="breadcrumb-sep">›</span><span>Galeri</span>
+      </nav>
+    </div>
+  </div>
+
+  <main class="section">
+    <div class="container">
+      <div class="gallery-tabs" id="galeryFilter">
+        <button class="gallery-tab active" data-cat="all">Semua</button>
+        <button class="gallery-tab" data-cat="kegiatan"><i class="fas fa-camera"></i> Kegiatan</button>
+        <button class="gallery-tab" data-cat="prestasi"><i class="fas fa-trophy"></i> Prestasi</button>
+        <button class="gallery-tab" data-cat="laboratorium"><i class="fas fa-flask"></i> Laboratorium</button>
+        <button class="gallery-tab" data-cat="ekstrakulikuler"><i class="fas fa-futbol"></i> Ekskul</button>
+        <button class="gallery-tab" data-cat="keagamaan"><i class="fas fa-mosque"></i> Keagamaan</button>
+        <button class="gallery-tab" data-cat="ppdb"><i class="fas fa-file-alt"></i> PPDB</button>
+      </div>
+
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="skeleton" style="height:220px;border-radius:12px;"></div>
+        <div class="skeleton" style="height:220px;border-radius:12px;"></div>
+        <div class="skeleton" style="height:220px;border-radius:12px;"></div>
+        <div class="skeleton" style="height:220px;border-radius:12px;"></div>
+        <div class="skeleton" style="height:220px;border-radius:12px;"></div>
+        <div class="skeleton" style="height:220px;border-radius:12px;"></div>
+      </div>
+
+      <div id="emptyGallery" style="display:none;text-align:center;padding:60px;color:var(--text-muted);">
+        <div style="font-size:3rem;margin-bottom:16px;opacity:0.3;">🖼️</div>
+        <div style="font-weight:700;">Belum ada foto di kategori ini.</div>
+      </div>
+
+      <div class="text-center mt-xl" id="loadMoreWrap" style="display:none;">
+        <button class="btn btn-outline-primary" id="loadMoreBtn"><i class="fas fa-plus"></i> Muat Lebih Banyak</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Lightbox foto">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Tutup"><i class="fas fa-times"></i></button>
+      <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+      <div id="lightboxCaption" style="text-align:center;color:#fff;margin-top:10px;font-size:0.9rem;"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><img src="assets/images/logo.png" class="footer-logo" alt="Logo" />
+            <div class="footer-name">LPI Nurul Huda Kapedi</div>
+          </div>
+          <p class="footer-desc">Mencetak generasi Islam yang berilmu, beriman, dan berakhlak mulia.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Halaman</div>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Beranda</a></li>
+            <li><a href="berita.html" class="footer-link">Berita</a></li>
+            <li><a href="ppdb.html" class="footer-link">PPDB</a></li>
+            <li><a href="kontak.html" class="footer-link">Kontak</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Unit Sekolah</div>
+          <ul class="footer-links">
+            <li><a href="profil.html" class="footer-link">PAUD</a></li>
+            <li><a href="profil.html" class="footer-link">TK</a></li>
+            <li><a href="profil.html" class="footer-link">SDI</a></li>
+            <li><a href="profil.html" class="footer-link">SMPI</a></li>
+            <li><a href="profil.html" class="footer-link">SMK</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Kontak</div>
+          <div class="footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Kapedi, Sumenep</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <p class="footer-copy">&copy; <span id="currentYear"></span> LPI Nurul Huda Kapedi</p>
+      </div>
+    </div>
+  </footer>
+  <a href="#" class="wa-float" id="waFloat" style="display:none;"><i
+      class="fab fa-whatsapp wa-float-icon"></i><span>Hubungi Kami</span></a>
+  <script type="module" src="assets/js/galeri.js?v=3"></script>
+</body>
+
+</html>

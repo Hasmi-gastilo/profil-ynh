@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Manajemen Prestasi — Admin LPI Nurul Huda</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo.png" />
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <div id="adminSidebarSlot"></div>
+  <div class="admin-main">
+    <div id="adminTopbarSlot"></div>
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <div>
+          <div class="admin-page-title">Manajemen Prestasi</div>
+          <div class="admin-page-subtitle">Kelola data prestasi siswa</div>
+        </div>
+        <button class="btn-admin btn-admin-primary" id="btnAdd"><i class="fas fa-plus"></i> Tambah Prestasi</button>
+      </div>
+      <div class="admin-card">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Judul Prestasi</th>
+                <th>Nama Siswa</th>
+                <th>Tingkat</th>
+                <th>Tahun</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="dataTable">
+              <tr>
+                <td colspan="6" style="text-align:center;padding:40px;color:var(--admin-text-muted);">Memuat...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="admin-modal-overlay" id="dataModal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title" id="modalTitle">Tambah Prestasi</div>
+        <button class="admin-modal-close" id="closeModal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="admin-modal-body">
+        <form id="dataForm">
+          <input type="hidden" id="itemId" />
+          <div class="form-grid-2">
+            <div class="form-group"><label class="form-label">Judul Prestasi <span
+                  class="required">*</span></label><input type="text" id="fTitle" class="form-control" required /></div>
+            <div class="form-group"><label class="form-label">Nama Siswa <span class="required">*</span></label><input
+                type="text" id="fStudentName" class="form-control" required /></div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group"><label class="form-label">Tingkat</label>
+              <select id="fLevel" class="form-control">
+                <option value="kecamatan">Kecamatan</option>
+                <option value="kabupaten">Kabupaten</option>
+                <option value="provinsi">Provinsi</option>
+                <option value="nasional">Nasional</option>
+                <option value="internasional">Internasional</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Tahun</label><input type="text" id="fYear"
+                class="form-control" placeholder="2024" /></div>
+          </div>
+          <div class="form-group"><label class="form-label">Deskripsi</label><textarea id="fDesc" class="form-control"
+              rows="3"></textarea></div>
+          <div class="form-group">
+            <label class="form-label">Foto</label>
+            <div class="upload-area"><input type="file" id="fPhoto" accept="image/*" />
+              <div class="upload-icon"><i class="fas fa-image"></i></div>
+              <div class="upload-text">Upload foto</div>
+            </div>
+            <div class="progress-bar-wrap" id="photoProgress" style="display:none;">
+              <div class="progress-bar" id="photoProgressBar"></div>
+            </div>
+            <img id="photoPreview" src=""
+              style="display:none;width:100px;height:100px;object-fit:cover;border-radius:50%;margin-top:10px;border:2px solid var(--admin-border);" />
+            <input type="hidden" id="fPhotoUrl" />
+          </div>
+        </form>
+      </div>
+      <div class="admin-modal-footer">
+        <button class="btn-admin btn-admin-outline" id="cancelModal">Batal</button>
+        <button class="btn-admin btn-admin-primary" id="saveItem"><i class="fas fa-save"></i> Simpan</button>
+      </div>
+    </div>
+  </div>
+  <div id="adminToastContainer" class="admin-toast-container"></div>
+  <script type="module" src="../assets/js/admin/prestasi-admin.js"></script>
+</body>
+
+</html>

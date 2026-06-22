@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Manajemen Galeri — Admin LPI Nurul Huda</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo.png" />
+  <link rel="stylesheet" href="../assets/css/admin.css?v=7" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <div id="adminSidebarSlot"></div>
+  <div class="admin-main">
+    <div id="adminTopbarSlot"></div>
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <div>
+          <div class="admin-page-title">Manajemen Galeri</div>
+          <div class="admin-page-subtitle">Upload dan kelola foto galeri</div>
+        </div>
+        <button class="btn-admin btn-admin-primary" id="btnUpload"><i class="fas fa-upload"></i> Upload Foto</button>
+      </div>
+
+      <!-- Batch Upload Area -->
+      <div class="admin-card" style="margin-bottom:20px; display:none;" id="uploadCard">
+        <div class="admin-card-header">
+          <div class="admin-card-title">Upload Foto Baru</div>
+        </div>
+        <div class="admin-card-body">
+          <div class="form-grid-2" style="margin-bottom:16px;">
+            <div class="form-group"><label class="form-label">Kategori</label>
+              <select id="uploadCategory" class="form-control">
+                <option value="kegiatan">Kegiatan Sekolah</option>
+                <option value="prestasi">Prestasi</option>
+                <option value="laboratorium">Laboratorium</option>
+                <option value="ekstrakulikuler">Ekstrakulikuler</option>
+                <option value="keagamaan">Kegiatan Keagamaan</option>
+                <option value="ppdb">PPDB</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Judul (opsional)</label><input type="text"
+                id="uploadTitle" class="form-control" placeholder="Deskripsi foto" /></div>
+            <div class="form-group"><label class="form-label">Format Tampilan</label>
+              <select id="uploadOrientation" class="form-control">
+                <option value="square">Persegi Empat (1:1)</option>
+                <option value="landscape">Landscape (Mendatar)</option>
+                <option value="portrait">Portrait (Tegak)</option>
+              </select>
+              <div class="form-hint">Mempengaruhi ukuran foto di galeri</div>
+            </div>
+          </div>
+          <div class="upload-area" id="batchUploadArea">
+            <input type="file" id="batchFiles" accept="image/*" multiple />
+            <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+            <div class="upload-text">Klik atau seret foto (multiple)</div>
+            <div class="upload-hint">JPG, PNG, WebP — Maks 5MB per foto</div>
+          </div>
+          <div id="uploadPreviews" class="upload-preview" style="margin-top:12px;"></div>
+          <div style="margin-top:16px;" id="uploadProgressWrap" style="display:none;">
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" id="uploadProgressBar"></div>
+            </div>
+            <div style="font-size:0.8rem;color:var(--admin-text-muted);margin-top:6px;" id="uploadProgressText">0%</div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:10px;">
+            <button class="btn-admin btn-admin-primary" id="doUpload"><i class="fas fa-upload"></i> Upload
+              Semua</button>
+            <button class="btn-admin btn-admin-outline" id="cancelUpload">Batal</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <div class="admin-card-title">Semua Foto</div>
+          </div>
+          <select id="catFilter" class="form-control" style="width:200px;">
+            <option value="all">Semua Kategori</option>
+            <option value="kegiatan">Kegiatan</option>
+            <option value="prestasi">Prestasi</option>
+            <option value="laboratorium">Laboratorium</option>
+            <option value="ekstrakulikuler">Ekskul</option>
+            <option value="keagamaan">Keagamaan</option>
+            <option value="ppdb">PPDB</option>
+          </select>
+        </div>
+        <div class="admin-card-body">
+          <div class="media-grid" id="galleryGrid">
+            <div class="skeleton" style="aspect-ratio:1;border-radius:10px;"></div>
+            <div class="skeleton" style="aspect-ratio:1;border-radius:10px;"></div>
+            <div class="skeleton" style="aspect-ratio:1;border-radius:10px;"></div>
+            <div class="skeleton" style="aspect-ratio:1;border-radius:10px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="adminToastContainer" class="admin-toast-container"></div>
+  <script type="module" src="../assets/js/admin/galeri-admin.js?v=2"></script>
+</body>
+
+</html>

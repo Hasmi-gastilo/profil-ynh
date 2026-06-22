@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Admin LPI Nurul Huda Kapedi</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo.png" />
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <div id="adminSidebarSlot"></div>
+  <div class="admin-main" id="adminMain">
+    <div id="adminTopbarSlot"></div>
+    <div class="admin-content">
+      <!-- Page Header -->
+      <div class="admin-page-header">
+        <div>
+          <div class="admin-page-title">Dashboard</div>
+          <div class="admin-page-subtitle">Selamat datang di panel admin LPI Nurul Huda Kapedi</div>
+        </div>
+        <a href="../index.html" target="_blank" class="btn-admin btn-admin-outline">
+          <i class="fas fa-external-link-alt"></i> Lihat Website
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="admin-stats-grid" id="statsGrid">
+        <div class="admin-stat-card" style="--stat-color:#1B4F8A;">
+          <div class="admin-stat-icon"><i class="fas fa-newspaper"></i></div>
+          <div class="admin-stat-number" id="statBerita">-</div>
+          <div class="admin-stat-label">Total Berita</div>
+        </div>
+        <div class="admin-stat-card" style="--stat-color:#D4A017;">
+          <div class="admin-stat-icon" style="background:#D4A017;"><i class="fas fa-images"></i></div>
+          <div class="admin-stat-number" id="statGaleri">-</div>
+          <div class="admin-stat-label">Total Galeri</div>
+        </div>
+        <div class="admin-stat-card" style="--stat-color:#DC2626;">
+          <div class="admin-stat-icon" style="background:#DC2626;"><i class="fas fa-trophy"></i></div>
+          <div class="admin-stat-number" id="statPrestasi">-</div>
+          <div class="admin-stat-label">Total Prestasi</div>
+        </div>
+        <div class="admin-stat-card" style="--stat-color:#16A34A;">
+          <div class="admin-stat-icon" style="background:#16A34A;"><i class="fas fa-calendar-alt"></i></div>
+          <div class="admin-stat-number" id="statKegiatan">-</div>
+          <div class="admin-stat-label">Total Kegiatan</div>
+        </div>
+      </div>
+
+      <!-- Recent Content & Quick Actions -->
+      <div style="display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;flex-wrap:wrap;">
+        <!-- Recent Posts -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div>
+              <div class="admin-card-title">Berita Terbaru</div>
+              <div class="admin-card-subtitle">5 artikel terbaru</div>
+            </div>
+            <a href="berita.html" class="btn-admin btn-admin-outline btn-admin-sm">Kelola Berita</a>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Judul</th>
+                  <th>Kategori</th>
+                  <th>Status</th>
+                  <th>Tanggal</th>
+                </tr>
+              </thead>
+              <tbody id="recentPostsTable">
+                <tr>
+                  <td colspan="4" style="text-align:center;padding:30px;color:var(--admin-text-muted);">Memuat data...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div style="min-width:240px;">
+          <div class="admin-card" style="margin-bottom:20px;">
+            <div class="admin-card-header">
+              <div class="admin-card-title">Aksi Cepat</div>
+            </div>
+            <div class="admin-card-body" style="display:flex;flex-direction:column;gap:10px;">
+              <a href="berita-form.html" class="btn-admin btn-admin-primary" style="width:100%;">
+                <i class="fas fa-plus"></i> Tulis Berita Baru
+              </a>
+              <a href="galeri.html" class="btn-admin btn-admin-outline" style="width:100%;">
+                <i class="fas fa-upload"></i> Upload Foto Galeri
+              </a>
+              <a href="banner.html" class="btn-admin btn-admin-outline" style="width:100%;">
+                <i class="fas fa-image"></i> Kelola Banner
+              </a>
+              <a href="ppdb.html" class="btn-admin btn-admin-outline" style="width:100%;">
+                <i class="fas fa-edit"></i> Update PPDB
+              </a>
+              <a href="pengaturan.html" class="btn-admin btn-admin-outline" style="width:100%;">
+                <i class="fas fa-cog"></i> Pengaturan Website
+              </a>
+            </div>
+          </div>
+
+          <!-- System Info -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div class="admin-card-title">Info Sistem</div>
+            </div>
+            <div class="admin-card-body" style="font-size:0.82rem;color:var(--admin-text-muted);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span>Firebase</span><span style="color:#16A34A;font-weight:700;">● Terhubung</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span>Storage</span><span style="color:#16A34A;font-weight:700;">● Aktif</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span>Versi</span><span style="font-weight:700;">1.0.0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="adminToastContainer" class="admin-toast-container"></div>
+  <script type="module" src="../assets/js/admin/dashboard.js"></script>
+</body>
+
+</html>

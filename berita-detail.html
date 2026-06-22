@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="articleTitle">Detail Berita — LPI Nurul Huda Kapedi</title>
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+  <style>
+    .article-body {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .article-body img {
+      border-radius: var(--radius-lg);
+      margin: 20px auto;
+      max-width: 100%;
+    }
+
+    .article-body h2,
+    .article-body h3 {
+      color: var(--text-primary);
+      margin: 24px 0 12px;
+    }
+
+    .article-body p {
+      margin-bottom: 16px;
+      line-height: 1.85;
+      color: var(--text-secondary);
+    }
+
+    .article-body ul,
+    .article-body ol {
+      margin: 12px 0 12px 24px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .article-body blockquote {
+      border-left: 4px solid var(--primary);
+      padding: 12px 20px;
+      margin: 20px 0;
+      background: var(--primary-50);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      font-style: italic;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 200ms;
+      border: 2px solid;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-brand"><img src="assets/images/logo.png" class="navbar-logo" alt="Logo"
+          id="navLogo" />
+        <div class="navbar-brand-text"><span class="navbar-brand-name" id="navBrandName">LPI Nurul Huda</span><span
+            class="navbar-brand-sub">Kapedi</span></div>
+      </a>
+      <ul class="navbar-nav">
+        <li><a href="index.html" class="nav-link">Beranda</a></li>
+        <li><a href="profil.html" class="nav-link">Profil</a></li>
+        <li><a href="berita.html" class="nav-link active">Berita</a></li>
+        <li><a href="prestasi.html" class="nav-link">Prestasi</a></li>
+        <li><a href="galeri.html" class="nav-link">Galeri</a></li>
+        <li><a href="ppdb.html" class="nav-link">PPDB</a></li>
+        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+        <li><a href="kontak.html" class="nav-link">Kontak</a></li>
+      </ul>
+      <div class="navbar-actions"><button class="btn-dark-toggle" id="darkToggle"><i class="fas fa-moon"></i></button><a
+          href="ppdb.html" class="btn-daftar">Daftar</a><button class="navbar-toggle"
+          id="navToggle"><span></span><span></span><span></span></button></div>
+    </div>
+  </nav>
+  <div class="navbar-mobile" id="mobileNav">
+    <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Beranda</a><a href="profil.html" class="nav-link"><i class="fas fa-school"></i> Profil</a><a
+      href="berita.html" class="nav-link active"><i class="fas fa-newspaper"></i> Berita</a><a href="prestasi.html" class="nav-link"><i class="fas fa-trophy"></i> Prestasi</a><a
+      href="galeri.html" class="nav-link"><i class="fas fa-images"></i> Galeri</a><a href="ppdb.html" class="nav-link"><i class="fas fa-file-alt"></i> PPDB</a><a
+      href="faq.html" class="nav-link"><i class="fas fa-question-circle"></i> FAQ</a><a href="kontak.html" class="nav-link"><i class="fas fa-phone"></i> Kontak</a>
+  </div>
+
+  <!-- Thumbnail Hero -->
+  <div id="articleHero" style="padding-top:var(--navbar-height);background:var(--primary-dark);">
+    <div class="skeleton" style="height:420px;border-radius:0;"></div>
+  </div>
+
+  <main class="section">
+    <div class="container">
+      <div style="max-width:800px;margin:0 auto;">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" style="color:var(--text-muted);margin-bottom:24px;">
+          <a href="index.html" style="color:var(--primary);">Beranda</a>
+          <span class="breadcrumb-sep">›</span>
+          <a href="berita.html" style="color:var(--primary);">Berita</a>
+          <span class="breadcrumb-sep">›</span>
+          <span id="breadcrumbTitle">...</span>
+        </nav>
+
+        <!-- Article Header -->
+        <div id="articleHeader">
+          <div class="skeleton" style="height:16px;width:120px;margin-bottom:16px;"></div>
+          <div class="skeleton" style="height:36px;margin-bottom:12px;"></div>
+          <div class="skeleton" style="height:36px;width:70%;margin-bottom:20px;"></div>
+          <div class="skeleton" style="height:14px;width:300px;margin-bottom:32px;"></div>
+        </div>
+
+        <!-- Article Body -->
+        <div class="article-body" id="articleBody">
+          <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>
+          <div class="skeleton" style="height:16px;margin-bottom:10px;width:90%;"></div>
+          <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>
+        </div>
+
+        <!-- Tags -->
+        <div id="articleTags" style="margin-top:32px;display:none;">
+          <span style="font-size:0.8rem;font-weight:700;color:var(--text-muted);margin-right:8px;">Tags:</span>
+          <div id="tagList" style="display:inline-flex;gap:8px;flex-wrap:wrap;"></div>
+        </div>
+
+        <!-- Share -->
+        <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border-light);">
+          <div style="font-size:0.85rem;font-weight:700;color:var(--text-muted);margin-bottom:12px;">Bagikan:</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a id="shareWa" href="#" target="_blank" class="share-btn"
+              style="background:#25D366;color:#fff;border-color:#25D366;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a id="shareFb" href="#" target="_blank" class="share-btn"
+              style="background:#1877F2;color:#fff;border-color:#1877F2;"><i class="fab fa-facebook-f"></i> Facebook</a>
+            <button id="copyLink" class="share-btn"
+              style="background:var(--bg-card);color:var(--text-primary);border-color:var(--border-medium);"><i
+                class="fas fa-link"></i> Salin Link</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Articles -->
+      <div style="margin-top:60px;">
+        <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:24px;">Berita Terkait</h2>
+        <div class="grid-3" id="relatedNews">
+          <div class="skeleton" style="height:280px;border-radius:20px;"></div>
+          <div class="skeleton" style="height:280px;border-radius:20px;"></div>
+          <div class="skeleton" style="height:280px;border-radius:20px;"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><img src="assets/images/logo.png" class="footer-logo" alt="Logo" />
+            <div class="footer-name">LPI Nurul Huda Kapedi</div>
+          </div>
+          <p class="footer-desc">Mencetak generasi Islam yang berilmu, beriman, dan berakhlak mulia.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Halaman</div>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Beranda</a></li>
+            <li><a href="berita.html" class="footer-link">Berita</a></li>
+            <li><a href="ppdb.html" class="footer-link">PPDB</a></li>
+            <li><a href="kontak.html" class="footer-link">Kontak</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Unit</div>
+          <ul class="footer-links">
+            <li><a href="profil.html" class="footer-link">PAUD</a></li>
+            <li><a href="profil.html" class="footer-link">TK</a></li>
+            <li><a href="profil.html" class="footer-link">SDI</a></li>
+            <li><a href="profil.html" class="footer-link">SMPI</a></li>
+            <li><a href="profil.html" class="footer-link">SMK</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Kontak</div>
+          <div class="footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Kapedi, Sumenep</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <p class="footer-copy">&copy; <span id="currentYear"></span> LPI Nurul Huda Kapedi</p>
+      </div>
+    </div>
+  </footer>
+  <a href="#" class="wa-float" id="waFloat" style="display:none;"><i
+      class="fab fa-whatsapp wa-float-icon"></i><span>Hubungi Kami</span></a>
+  <script type="module" src="assets/js/berita.js"></script>
+</body>
+
+</html>

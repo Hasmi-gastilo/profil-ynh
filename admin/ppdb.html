@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Manajemen PPDB — Admin LPI Nurul Huda</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo.png" />
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css"
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <div id="adminSidebarSlot"></div>
+  <div class="admin-main">
+    <div id="adminTopbarSlot"></div>
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <div>
+          <div class="admin-page-title">Manajemen PPDB</div>
+          <div class="admin-page-subtitle">Kelola informasi penerimaan siswa baru</div>
+        </div>
+        <button class="btn-admin btn-admin-primary" id="savePpdb"><i class="fas fa-save"></i> Simpan Perubahan</button>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div class="admin-card-title">Informasi Umum PPDB</div>
+        </div>
+        <div class="admin-card-body">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Judul Banner</label>
+              <input type="text" id="ppdbBannerTitle" class="form-control" placeholder="Mis: PPDB 2024/2025 Dibuka!" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status PPDB</label>
+              <select id="ppdbStatus" class="form-control">
+                <option value="open">Dibuka</option>
+                <option value="closed">Ditutup</option>
+                <option value="soon">Segera Dibuka</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pengumuman Penting (opsional)</label>
+            <textarea id="ppdbAnnouncement" class="form-control" rows="2"
+              placeholder="Pesan pengumuman di bagian atas halaman..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Deskripsi PPDB</label>
+            <textarea id="ppdbDesc" class="form-control" rows="3"
+              placeholder="Penjelasan singkat tentang PPDB tahun ini..."></textarea>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Link Formulir Pendaftaran</label>
+              <input type="url" id="ppdbRegLink" class="form-control" placeholder="https://forms.gle/..." />
+              <div class="form-hint">Link Google Form atau sistem pendaftaran eksternal</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Link Brosur / Flyer</label>
+              <input type="url" id="ppdbBrochure" class="form-control" placeholder="https://drive.google.com/..." />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div class="admin-card-title">Jadwal PPDB</div>
+          </div>
+          <div id="scheduleEditor" style="min-height:200px;"></div>
+        </div>
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <div class="admin-card-title">Persyaratan Pendaftaran</div>
+          </div>
+          <div id="requirementsEditor" style="min-height:200px;"></div>
+        </div>
+      </div>
+
+      <div class="admin-card" style="margin-top:20px;">
+        <div class="admin-card-header">
+          <div class="admin-card-title">Biaya Pendidikan</div>
+        </div>
+        <div id="feesEditor" style="min-height:200px;"></div>
+      </div>
+    </div>
+  </div>
+  <div id="adminToastContainer" class="admin-toast-container"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js" crossorigin="anonymous"></script>
+  <script type="module" src="../assets/js/admin/ppdb-admin.js"></script>
+</body>
+
+</html>

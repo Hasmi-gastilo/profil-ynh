@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Yayasan Pendidikan Islam Nurul Huda Kapedi — Mencetak Generasi Islam yang Berilmu, Beriman, dan Berakhlak Mulia." />
+  <meta name="theme-color" content="#1B4F8A" />
+  <meta property="og:title" content="LPI Nurul Huda Kapedi" />
+  <meta property="og:description" content="Yayasan Pendidikan Islam Nurul Huda Kapedi — Mencetak Generasi Islam yang Berilmu, Beriman, dan Berakhlak Mulia." />
+  <meta property="og:type" content="website" />
+  <title>LPI Nurul Huda Kapedi — Pendidikan Islam Terpadu & Berprestasi</title>
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+  <link rel="stylesheet" href="assets/css/style.css?v=12" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════════════════ -->
+<nav class="navbar navbar-transparent" id="navbar" role="navigation" aria-label="Navigasi utama">
+  <div class="container navbar-inner">
+    <a href="index.html" class="navbar-brand" aria-label="Beranda LPI Nurul Huda">
+      <img src="assets/images/logo.png" alt="Logo LPI Nurul Huda Kapedi" class="navbar-logo" id="navLogo" />
+      <div class="navbar-brand-text">
+        <span class="navbar-brand-name" id="navBrandName">LPI Nurul Huda</span>
+        <span class="navbar-brand-sub">Kapedi</span>
+      </div>
+    </a>
+
+    <ul class="navbar-nav" role="list">
+      <li><a href="index.html" class="nav-link active">Beranda</a></li>
+      <li><a href="profil.html" class="nav-link">Profil</a></li>
+      <li><a href="berita.html" class="nav-link">Berita</a></li>
+      <li><a href="prestasi.html" class="nav-link">Prestasi</a></li>
+      <li><a href="galeri.html" class="nav-link">Galeri</a></li>
+      <li><a href="ppdb.html" class="nav-link">PPDB</a></li>
+      <li><a href="faq.html" class="nav-link">FAQ</a></li>
+      <li><a href="kontak.html" class="nav-link">Kontak</a></li>
+    </ul>
+
+    <div class="navbar-actions">
+      <button class="btn-dark-toggle" id="darkToggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+      </button>
+      <a href="ppdb.html" class="btn-daftar" id="btnDaftar">Daftar Sekarang</a>
+      <button class="navbar-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="navbar-mobile" id="mobileNav" role="menu">
+  <a href="index.html" class="nav-link active" role="menuitem"><i class="fas fa-home"></i> Beranda</a>
+  <a href="profil.html" class="nav-link" role="menuitem"><i class="fas fa-school"></i> Profil</a>
+  <a href="berita.html" class="nav-link" role="menuitem"><i class="fas fa-newspaper"></i> Berita</a>
+  <a href="prestasi.html" class="nav-link" role="menuitem"><i class="fas fa-trophy"></i> Prestasi</a>
+  <a href="galeri.html" class="nav-link" role="menuitem"><i class="fas fa-images"></i> Galeri</a>
+  <a href="ppdb.html" class="nav-link" role="menuitem"><i class="fas fa-file-alt"></i> PPDB</a>
+  <a href="faq.html" class="nav-link" role="menuitem"><i class="fas fa-question-circle"></i> FAQ</a>
+  <a href="kontak.html" class="nav-link" role="menuitem"><i class="fas fa-phone"></i> Kontak</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     HERO SLIDER
+══════════════════════════════════════════════════════ -->
+<section class="hero" id="hero" aria-label="Banner utama">
+  <div class="hero-pattern"></div>
+
+  <div class="hero-slides" id="heroSlides">
+    <!-- Slides diisi oleh JavaScript dari Firestore -->
+    <!-- Loading state — diganti JS setelah data Firestore dimuat -->
+    <div class="hero-slide active" id="defaultSlide">
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0F2D52,#1B4F8A);"></div>
+      <div class="hero-content">
+        <div class="container">
+          <div class="hero-text" id="defaultSlideContent" style="opacity:0;transition:opacity 600ms ease;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="hero-prev" id="heroPrev" aria-label="Slide sebelumnya">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <button class="hero-next" id="heroNext" aria-label="Slide berikutnya">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+  <div class="hero-dots" id="heroDots" role="tablist" aria-label="Indikator slide"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     UNIT SEKOLAH
+══════════════════════════════════════════════════════ -->
+<section class="section-sm" style="background:var(--bg-card);border-bottom:1px solid var(--border-light);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label"><i class="fas fa-school"></i> Unit Pendidikan</span>
+      <h2 class="section-title">Unit Sekolah <span>Nurul Huda</span></h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;" id="unitGrid">
+      <div class="unit-card fade-in">
+        <div class="unit-icon"><i class="fas fa-baby unit-fa-icon"></i></div>
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:4px;">PAUD</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Pendidikan Anak Usia Dini</p>
+      </div>
+      <div class="unit-card fade-in fade-in-delay-1">
+        <div class="unit-icon"><i class="fas fa-palette unit-fa-icon"></i></div>
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:4px;">TK</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Taman Kanak-Kanak</p>
+      </div>
+      <div class="unit-card fade-in fade-in-delay-2">
+        <div class="unit-icon"><i class="fas fa-book-open unit-fa-icon"></i></div>
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:4px;">SDI</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Sekolah Dasar Islam</p>
+      </div>
+      <div class="unit-card fade-in fade-in-delay-3">
+        <div class="unit-icon"><i class="fas fa-graduation-cap unit-fa-icon"></i></div>
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:4px;">SMPI</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Sekolah Menengah Pertama Islam</p>
+      </div>
+      <div class="unit-card fade-in fade-in-delay-4">
+        <div class="unit-icon"><i class="fas fa-tools unit-fa-icon"></i></div>
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:4px;">SMK</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Sekolah Menengah Kejuruan</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     STATS COUNTER
+══════════════════════════════════════════════════════ -->
+<section class="stats-section" aria-label="Statistik sekolah">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-number" data-count="1200">0</div>
+        <div class="stat-label">Siswa Aktif</div>
+      </div>
+      <div class="stat-item fade-in fade-in-delay-1">
+        <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+        <div class="stat-number" data-count="85">0</div>
+        <div class="stat-label">Tenaga Pengajar</div>
+      </div>
+      <div class="stat-item fade-in fade-in-delay-2">
+        <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+        <div class="stat-number" data-count="150">0</div>
+        <div class="stat-label">Prestasi Diraih</div>
+      </div>
+      <div class="stat-item fade-in fade-in-delay-3">
+        <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+        <div class="stat-number" data-count="25">0</div>
+        <div class="stat-label">Tahun Berdiri</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PESAN KEPALA SEKOLAH
+══════════════════════════════════════════════════════ -->
+<section class="section principal-section" aria-label="Pesan kepala sekolah">
+  <div class="container">
+    <div class="principal-card" id="principalCard">
+      <div class="principal-img-wrap fade-in">
+        <div class="principal-img-placeholder" id="principalImgWrap">
+          <i class="fas fa-user-tie" style="font-size:4rem;color:var(--primary);opacity:0.5;"></i>
+        </div>
+        <div class="principal-decoration"></div>
+      </div>
+      <div class="fade-in fade-in-delay-1">
+        <span class="section-label"><i class="fas fa-quote-left"></i> Pesan Pimpinan</span>
+        <blockquote class="principal-quote" id="principalQuote">
+          Kami senantiasa berkomitmen untuk menjadikan Yayasan Pendidikan Islam Nurul Huda Kapedi sebagai lembaga pendidikan Islam yang unggul, menghasilkan generasi yang berilmu, beriman, dan berakhlak mulia untuk kemajuan agama, bangsa, dan negara.
+        </blockquote>
+        <div class="principal-name" id="principalName">Kepala Yayasan</div>
+        <div class="principal-role" id="principalRole">LPI Nurul Huda Kapedi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     BERITA TERBARU
+══════════════════════════════════════════════════════ -->
+<section class="section" style="background:var(--gray-50);" aria-label="Berita terbaru">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label"><i class="fas fa-newspaper"></i> Terkini</span>
+      <h2 class="section-title">Berita & <span>Informasi</span></h2>
+      <p class="section-subtitle">Update terbaru dari lingkungan Yayasan Pendidikan Islam Nurul Huda Kapedi</p>
+    </div>
+
+    <div class="news-grid" id="newsGrid">
+      <!-- Skeleton -->
+      <div class="news-featured">
+        <div class="card">
+          <div class="skeleton" style="height:280px;"></div>
+          <div class="card-body">
+            <div class="skeleton" style="height:12px;width:100px;margin-bottom:10px;"></div>
+            <div class="skeleton" style="height:22px;margin-bottom:10px;"></div>
+            <div class="skeleton" style="height:22px;width:80%;margin-bottom:10px;"></div>
+            <div class="skeleton" style="height:14px;margin-bottom:6px;"></div>
+            <div class="skeleton" style="height:14px;width:70%;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="news-list">
+        <div class="skeleton" style="height:100px;border-radius:12px;"></div>
+        <div class="skeleton" style="height:100px;border-radius:12px;margin-top:12px;"></div>
+        <div class="skeleton" style="height:100px;border-radius:12px;margin-top:12px;"></div>
+      </div>
+    </div>
+
+    <div class="text-center mt-xl">
+      <a href="berita.html" class="btn btn-outline-primary">
+        Lihat Semua Berita <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PRESTASI
+══════════════════════════════════════════════════════ -->
+<section class="section" aria-label="Prestasi siswa">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label"><i class="fas fa-medal"></i> Kebanggaan</span>
+      <h2 class="section-title">Prestasi <span>Siswa</span></h2>
+      <p class="section-subtitle">Pencapaian luar biasa yang diraih siswa-siswi Nurul Huda Kapedi</p>
+    </div>
+
+    <div class="grid-4" id="prestasiGrid">
+      <!-- Diisi oleh JS -->
+      <div class="skeleton" style="height:220px;border-radius:20px;"></div>
+      <div class="skeleton" style="height:220px;border-radius:20px;"></div>
+      <div class="skeleton" style="height:220px;border-radius:20px;"></div>
+      <div class="skeleton" style="height:220px;border-radius:20px;"></div>
+    </div>
+
+    <div class="text-center mt-xl">
+      <a href="prestasi.html" class="btn btn-outline-primary">
+        Lihat Semua Prestasi <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     GALERI PREVIEW
+══════════════════════════════════════════════════════ -->
+<section class="section" style="background:var(--gray-50);" aria-label="Galeri foto">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label"><i class="fas fa-images"></i> Galeri</span>
+      <h2 class="section-title">Foto <span>Kegiatan</span></h2>
+      <p class="section-subtitle">Momen-momen berharga dari kegiatan di Nurul Huda Kapedi</p>
+    </div>
+
+    <div class="gallery-grid" id="homeGallery">
+      <div class="skeleton" style="height:200px;border-radius:12px;"></div>
+      <div class="skeleton" style="height:200px;border-radius:12px;"></div>
+      <div class="skeleton" style="height:200px;border-radius:12px;"></div>
+      <div class="skeleton" style="height:200px;border-radius:12px;"></div>
+    </div>
+
+    <div class="text-center mt-xl">
+      <a href="galeri.html" class="btn btn-outline-primary">
+        Lihat Semua Galeri <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PPDB CTA BANNER
+══════════════════════════════════════════════════════ -->
+<section class="section-sm" aria-label="Informasi PPDB">
+  <div class="container">
+    <div class="ppdb-banner fade-in">
+      <div class="ppdb-banner-content">
+        <div>
+          <div class="ppdb-badge">
+            Penerimaan Peserta Didik Baru
+          </div>
+          <h2 class="ppdb-title" id="ppdbTitle">PPDB Tahun Ajaran Baru Telah Dibuka!</h2>
+          <p class="ppdb-desc" id="ppdbDesc">Segera daftarkan putra-putri Anda di Yayasan Pendidikan Islam Nurul Huda Kapedi. Tempat terbatas!</p>
+        </div>
+        <div style="text-align:center;flex-shrink:0;">
+          <a href="ppdb.html" class="btn btn-accent btn-lg" style="display:block;margin-bottom:12px;">
+            <i class="fas fa-edit"></i> Daftar Sekarang
+          </a>
+          <a href="ppdb.html#info" class="btn btn-outline btn-lg" style="display:block;">
+            <i class="fas fa-info-circle"></i> Info PPDB
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     FAQ PREVIEW
+══════════════════════════════════════════════════════ -->
+<section class="section" aria-label="Pertanyaan umum">
+  <div class="container">
+    <div class="grid-2" style="gap:48px;align-items:start;">
+      <div class="fade-in">
+        <span class="section-label"><i class="fas fa-question-circle"></i> FAQ</span>
+        <h2 class="section-title" style="text-align:left;">Pertanyaan yang <span>Sering Diajukan</span></h2>
+        <p class="section-subtitle" style="text-align:left;margin:0;">Temukan jawaban atas pertanyaan umum mengenai LPI Nurul Huda Kapedi</p>
+        <a href="faq.html" class="btn btn-primary mt-xl">
+          Lihat Semua FAQ <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+      <div id="homeFaq" class="fade-in fade-in-delay-1">
+        <div class="skeleton" style="height:64px;border-radius:12px;margin-bottom:10px;"></div>
+        <div class="skeleton" style="height:64px;border-radius:12px;margin-bottom:10px;"></div>
+        <div class="skeleton" style="height:64px;border-radius:12px;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div>
+        <div class="footer-brand">
+          <img src="assets/images/logo.png" alt="Logo LPI Nurul Huda" class="footer-logo" />
+          <div class="footer-name">Yayasan Pendidikan Islam<br>Nurul Huda Kapedi</div>
+        </div>
+        <p class="footer-desc" id="footerDesc">
+          Lembaga pendidikan Islam yang berkomitmen mencetak generasi yang berilmu, beriman, dan berakhlak mulia.
+        </p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn social-facebook" aria-label="Facebook" style="display:none;"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="footer-social-btn social-instagram" aria-label="Instagram" style="display:none;"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="footer-social-btn social-tiktok" aria-label="TikTok" style="display:none;"><i class="fab fa-tiktok"></i></a>
+          <a href="#" class="footer-social-btn social-youtube" aria-label="YouTube" style="display:none;"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <!-- Links -->
+      <div>
+        <div class="footer-col-title">Halaman</div>
+        <ul class="footer-links">
+          <li><a href="index.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> Beranda</a></li>
+          <li><a href="profil.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> Profil</a></li>
+          <li><a href="berita.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> Berita</a></li>
+          <li><a href="prestasi.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> Prestasi</a></li>
+          <li><a href="galeri.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> Galeri</a></li>
+          <li><a href="ppdb.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> PPDB</a></li>
+          <li><a href="faq.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> FAQ</a></li>
+          <li><a href="kontak.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> Kontak</a></li>
+        </ul>
+      </div>
+      <!-- Unit -->
+      <div>
+        <div class="footer-col-title">Unit Sekolah</div>
+        <ul class="footer-links">
+          <li><a href="profil.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> PAUD</a></li>
+          <li><a href="profil.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> TK</a></li>
+          <li><a href="profil.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> SDI</a></li>
+          <li><a href="profil.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> SMPI</a></li>
+          <li><a href="profil.html" class="footer-link"><i class="fas fa-chevron-right" style="font-size:0.6rem;"></i> SMK</a></li>
+        </ul>
+      </div>
+      <!-- Kontak -->
+      <div>
+        <div class="footer-col-title">Kontak</div>
+        <div class="footer-contact-item" id="footerAddress">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Kapedi, Bluto, Sumenep, Madura, Jawa Timur</span>
+        </div>
+        <div class="footer-contact-item" id="footerPhone">
+          <i class="fas fa-phone"></i>
+          <span>-</span>
+        </div>
+        <div class="footer-contact-item" id="footerEmail">
+          <i class="fas fa-envelope"></i>
+          <span>-</span>
+        </div>
+        <div class="footer-contact-item" id="footerWhatsapp">
+          <i class="fab fa-whatsapp"></i>
+          <span>-</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <p class="footer-copy" id="footerCopy">
+        &copy; <span id="currentYear"></span> <span>LPI Nurul Huda Kapedi</span>. Hak Cipta Dilindungi.
+      </p>
+      <p class="footer-copy">Dibuat untuk pendidikan Islam</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="#" class="wa-float" id="waFloat" aria-label="Hubungi via WhatsApp" style="display:none;">
+  <i class="fab fa-whatsapp wa-float-icon"></i>
+  <span>Hubungi Kami</span>
+</a>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module" src="assets/js/home.js?v=3"></script>
+</body>
+</html>

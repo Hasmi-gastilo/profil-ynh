@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Informasi PPDB (Penerimaan Peserta Didik Baru) LPI Nurul Huda Kapedi — Jadwal, Persyaratan, dan Biaya." />
+  <title>PPDB — LPI Nurul Huda Kapedi</title>
+  <link rel="icon" type="image/png" href="assets/images/logo.png" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-brand"><img src="assets/images/logo.png" class="navbar-logo" alt="Logo"
+          id="navLogo" />
+        <div class="navbar-brand-text"><span class="navbar-brand-name" id="navBrandName">LPI Nurul Huda</span><span
+            class="navbar-brand-sub">Kapedi</span></div>
+      </a>
+      <ul class="navbar-nav">
+        <li><a href="index.html" class="nav-link">Beranda</a></li>
+        <li><a href="profil.html" class="nav-link">Profil</a></li>
+        <li><a href="berita.html" class="nav-link">Berita</a></li>
+        <li><a href="prestasi.html" class="nav-link">Prestasi</a></li>
+        <li><a href="galeri.html" class="nav-link">Galeri</a></li>
+        <li><a href="ppdb.html" class="nav-link active">PPDB</a></li>
+        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+        <li><a href="kontak.html" class="nav-link">Kontak</a></li>
+      </ul>
+      <div class="navbar-actions"><button class="btn-dark-toggle" id="darkToggle"><i class="fas fa-moon"></i></button><a
+          href="ppdb.html" class="btn-daftar btn-accent">Daftar Sekarang</a><button class="navbar-toggle"
+          id="navToggle"><span></span><span></span><span></span></button></div>
+    </div>
+  </nav>
+  <div class="navbar-mobile" id="mobileNav">
+    <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Beranda</a><a href="profil.html" class="nav-link"><i class="fas fa-school"></i> Profil</a><a
+      href="berita.html" class="nav-link"><i class="fas fa-newspaper"></i> Berita</a><a href="prestasi.html" class="nav-link"><i class="fas fa-trophy"></i> Prestasi</a><a
+      href="galeri.html" class="nav-link"><i class="fas fa-images"></i> Galeri</a><a href="ppdb.html" class="nav-link active"><i class="fas fa-file-alt"></i> PPDB</a><a
+      href="faq.html" class="nav-link"><i class="fas fa-question-circle"></i> FAQ</a><a href="kontak.html" class="nav-link"><i class="fas fa-phone"></i> Kontak</a>
+  </div>
+
+  <div class="page-hero">
+    <div class="container">
+      <h1 class="page-hero-title">PPDB</h1>
+      <p class="page-hero-subtitle">Penerimaan Peserta Didik Baru LPI Nurul Huda Kapedi</p>
+      <nav class="breadcrumb"><a href="index.html">Beranda</a><span class="breadcrumb-sep">›</span><span>PPDB</span>
+      </nav>
+    </div>
+  </div>
+
+  <main>
+    <!-- Pengumuman Banner -->
+    <div id="ppdbAnnouncementWrap" style="display:none;background:var(--accent);padding:16px 0;">
+      <div class="container" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <i class="fas fa-bullhorn" style="color:#fff;font-size:1.2rem;"></i>
+        <span id="ppdbAnnouncement" style="color:#fff;font-weight:700;font-size:0.9rem;flex:1;"></span>
+      </div>
+    </div>
+
+    <section class="section" id="info">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i class="fas fa-calendar-alt"></i> PPDB</span>
+          <h2 class="section-title">Pendaftaran <span>Peserta Didik Baru</span></h2>
+          <p class="section-subtitle" id="ppdbDesc">Memuat informasi PPDB...</p>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:48px;" id="ppdbActions">
+          <a href="#" class="btn btn-primary btn-lg" id="ppdbRegLink" style="display:none;">
+            <i class="fas fa-edit"></i> Daftar Online
+          </a>
+          <a href="#" class="btn btn-outline-primary btn-lg" id="ppdbBrochure" style="display:none;" target="_blank">
+            <i class="fas fa-download"></i> Unduh Brosur
+          </a>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;" class="ppdb-grid">
+          <!-- Jadwal -->
+          <div class="fade-in">
+            <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
+              <span
+                style="width:36px;height:36px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;flex-shrink:0;"><i
+                  class="fas fa-calendar"></i></span>
+              Jadwal Pendaftaran
+            </h3>
+            <div class="timeline" id="ppdbSchedule">
+              <div class="skeleton" style="height:80px;border-radius:12px;margin-bottom:16px;"></div>
+              <div class="skeleton" style="height:80px;border-radius:12px;margin-bottom:16px;"></div>
+              <div class="skeleton" style="height:80px;border-radius:12px;"></div>
+            </div>
+          </div>
+
+          <!-- Persyaratan -->
+          <div class="fade-in fade-in-delay-1">
+            <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
+              <span
+                style="width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;flex-shrink:0;"><i
+                  class="fas fa-list-check"></i></span>
+              Persyaratan
+            </h3>
+            <div id="ppdbRequirements" style="color:var(--text-secondary);line-height:1.85;">
+              <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>
+              <div class="skeleton" style="height:16px;margin-bottom:10px;width:80%;"></div>
+              <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Biaya -->
+        <div style="margin-top:48px;" class="fade-in">
+          <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
+            <span
+              style="width:36px;height:36px;background:var(--success);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;flex-shrink:0;"><i
+                class="fas fa-money-bill"></i></span>
+            Biaya Pendidikan
+          </h3>
+          <div id="ppdbFees" style="color:var(--text-secondary);line-height:1.85;">
+            <div class="skeleton" style="height:120px;border-radius:12px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><img src="assets/images/logo.png" class="footer-logo" alt="Logo" />
+            <div class="footer-name">LPI Nurul Huda Kapedi</div>
+          </div>
+          <p class="footer-desc">Mencetak generasi Islam yang berilmu, beriman, dan berakhlak mulia.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Halaman</div>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Beranda</a></li>
+            <li><a href="berita.html" class="footer-link">Berita</a></li>
+            <li><a href="ppdb.html" class="footer-link">PPDB</a></li>
+            <li><a href="kontak.html" class="footer-link">Kontak</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Unit Sekolah</div>
+          <ul class="footer-links">
+            <li><a href="profil.html" class="footer-link">PAUD</a></li>
+            <li><a href="profil.html" class="footer-link">TK</a></li>
+            <li><a href="profil.html" class="footer-link">SDI</a></li>
+            <li><a href="profil.html" class="footer-link">SMPI</a></li>
+            <li><a href="profil.html" class="footer-link">SMK</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Kontak</div>
+          <div class="footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Kapedi, Sumenep</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <p class="footer-copy">&copy; <span id="currentYear"></span> LPI Nurul Huda Kapedi</p>
+      </div>
+    </div>
+  </footer>
+  <a href="#" class="wa-float" id="waFloat" style="display:none;"><i
+      class="fab fa-whatsapp wa-float-icon"></i><span>Hubungi Kami</span></a>
+  <script type="module" src="assets/js/ppdb.js"></script>
+</body>
+
+</html>

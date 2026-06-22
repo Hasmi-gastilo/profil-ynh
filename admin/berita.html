@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manajemen Berita — Admin LPI Nurul Huda Kapedi</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo.png" />
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <div id="adminSidebarSlot"></div>
+  <div class="admin-main">
+    <div id="adminTopbarSlot"></div>
+    <div class="admin-content">
+      <div class="admin-page-header">
+        <div>
+          <div class="admin-page-title">Manajemen Berita</div>
+          <div class="admin-page-subtitle">Kelola artikel berita dan informasi</div>
+        </div>
+        <a href="berita-form.html" class="btn-admin btn-admin-primary"><i class="fas fa-plus"></i> Tulis Berita</a>
+      </div>
+
+      <!-- Filters -->
+      <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center;">
+        <div style="position:relative;flex:1;min-width:200px;">
+          <input type="text" id="searchBerita" class="form-control" placeholder="Cari berita..."
+            style="padding-left:40px;" />
+          <i class="fas fa-search"
+            style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--admin-text-muted);"></i>
+        </div>
+        <select id="filterStatus" class="form-control" style="width:160px;">
+          <option value="all">Semua Status</option>
+          <option value="published">Diterbitkan</option>
+          <option value="draft">Draft</option>
+        </select>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Thumbnail</th>
+                <th>Judul</th>
+                <th>Kategori</th>
+                <th>Penulis</th>
+                <th>Status</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="beritaTable">
+              <tr>
+                <td colspan="7" style="text-align:center;padding:40px;color:var(--admin-text-muted);">Memuat data...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="adminToastContainer" class="admin-toast-container"></div>
+  <script type="module" src="../assets/js/admin/berita-admin.js"></script>
+</body>
+
+</html>
