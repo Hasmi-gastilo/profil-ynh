@@ -186,18 +186,20 @@ async function loadNews() {
   const grid = document.getElementById('newsGrid');
   if (!grid) return;
 
+  // Ubah class container menjadi news-layout
+  grid.className = 'news-layout';
+
   try {
-    // Filter status di client untuk menghindari kebutuhan composite index Firestore
     const q = query(
       collection(db, 'berita'),
       orderBy('publishDate', 'desc'),
-      limit(10)
+      limit(12)
     );
     const snap = await getDocs(q);
     const articles = snap.docs
       .map(d => ({ id: d.id, ...d.data() }))
       .filter(a => a.status === 'published')
-      .slice(0, 4);
+      .slice(0, 6);
 
     if (!articles.length) {
       grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">
@@ -207,44 +209,75 @@ async function loadNews() {
       return;
     }
 
-    const [featured, ...rest] = articles;
+    // Kiri: 3 artikel bernomor
+    const mainArticles = articles.slice(0, 3);
+    // Kanan sidebar: semua artikel (maks 5 untuk sidebar)
+    const sidebarArticles = articles.slice(0, 5);
 
-    grid.innerHTML = `
-      <div class="news-featured">
-        <a href="berita-detail.html?slug=${featured.slug || featured.id}" class="card" style="display:block;text-decoration:none;">
-          <img class="card-img" src="${featured.thumbnail || 'https://via.placeholder.com/800x450?text=No+Image'}" alt="${featured.title}" loading="lazy" />
-          <div class="card-body">
-            <span class="card-label card-label-primary">${featured.category || 'Berita'}</span>
-            <h2 class="card-title" style="-webkit-line-clamp:3;">${featured.title}</h2>
-            <div class="card-meta">
-              <span class="card-meta-item"><i class="fas fa-user"></i> ${featured.author || 'Admin'}</span>
-              <span class="card-meta-item"><i class="fas fa-calendar"></i> ${formatDate(featured.publishDate)}</span>
-            </div>
-            <p class="card-text">${truncate(featured.excerpt || featured.content?.replace(/<[^>]+>/g, '') || '', 150)}</p>
-          </div>
-          <div class="card-footer">
-            <span style="font-size:0.85rem;font-weight:700;color:var(--primary);">Baca Selengkapnya →</span>
-          </div>
-        </a>
-      </div>
-      <div class="news-list">
-        ${rest.map(a => `
-          <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-list-item" style="text-decoration:none;">
-            <img class="news-list-thumb" src="${a.thumbnail || 'https://via.placeholder.com/80?text=NH'}" alt="${a.title}" loading="lazy" />
-            <div class="news-list-body">
-              <span class="card-label card-label-primary" style="font-size:0.65rem;padding:2px 8px;">${a.category || 'Berita'}</span>
-              <div class="news-list-title">${a.title}</div>
-              <div class="news-list-date"><i class="fas fa-calendar" style="margin-right:4px;"></i>${formatDate(a.publishDate)}</div>
+    const PLACEHOLDER = 'https://via.placeholder.com/200x130?text=No+Image';
+    const PLACEHOLDER_SB = 'https://via.placeholder.com/56x44?text=NH';
+
+    const numLabels = ['01', '02', '03'];
+
+    const mainHTML = `
+      <div class="news-article-list">
+        ${mainArticles.map((a, i) => `
+          <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-article-item">
+            <span class="news-article-num">${numLabels[i]}</span>
+            <img class="news-article-thumb"
+                 src="${a.thumbnail || PLACEHOLDER}"
+                 alt="${a.title}" loading="lazy"
+                 onerror="this.src='${PLACEHOLDER}'" />
+            <div class="news-article-body">
+              <span class="news-article-category">${a.category || 'Berita Umum'}</span>
+              <h3 class="news-article-title">${a.title}</h3>
+              <p class="news-article-excerpt">${truncate(a.excerpt || a.content?.replace(/<[^>]+>/g, '') || '', 120)}</p>
+              <span class="news-article-date">
+                <i class="fas fa-calendar-alt"></i>
+                ${formatDate(a.publishDate)}
+              </span>
             </div>
           </a>
         `).join('')}
       </div>
     `;
+
+    const sidebarHTML = `
+      <aside class="news-sidebar">
+        <div class="news-sidebar-header">
+          <div class="news-sidebar-icon"><i class="fas fa-fire-alt"></i></div>
+          <div class="news-sidebar-title">Berita Terkini</div>
+        </div>
+        <div class="news-sidebar-list">
+          ${sidebarArticles.map(a => `
+            <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-sidebar-item">
+              <img class="news-sidebar-thumb"
+                   src="${a.thumbnail || PLACEHOLDER_SB}"
+                   alt="${a.title}" loading="lazy"
+                   onerror="this.src='${PLACEHOLDER_SB}'" />
+              <div class="news-sidebar-body">
+                <div class="news-sidebar-item-title">${a.title}</div>
+                <div class="news-sidebar-item-date">
+                  <i class="fas fa-calendar-alt" style="margin-right:3px;"></i>${formatDate(a.publishDate)}
+                </div>
+              </div>
+            </a>
+          `).join('')}
+        </div>
+        <div class="news-sidebar-footer">
+          <a href="berita.html">Lihat Semua Berita <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </aside>
+    `;
+
+    grid.innerHTML = mainHTML + sidebarHTML;
+
   } catch (err) {
     console.warn('Could not load news:', err.message);
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">Gagal memuat berita.</div>`;
   }
 }
+
 
 // ── LOAD PRESTASI ──────────────────────────────────────────
 async function loadPrestasi() {
