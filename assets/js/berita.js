@@ -212,25 +212,33 @@ function renderDetail(a) {
   const titleEl = document.getElementById('articleTitle');
   if (titleEl) titleEl.textContent = `${a.title} — LPI Nurul Huda Kapedi`;
 
-  // Hero image
+  // Hero image & Title overlay
   const hero = document.getElementById('articleHero');
-  if (hero && a.thumbnail) {
-    hero.innerHTML = `<img src="${a.thumbnail}" alt="${a.title}" style="width:100%;max-height:480px;object-fit:cover;display:block;" />`;
-  } else if (hero) {
-    hero.innerHTML = `<div style="height:120px;background:linear-gradient(135deg,var(--primary-dark),var(--primary));"></div>`;
+  if (hero) {
+    hero.innerHTML = `
+      <div class="article-hero-wrap">
+        <img src="${a.thumbnail || 'https://via.placeholder.com/800x480?text=No+Image'}" alt="${a.title}" class="article-hero-img" />
+        <div class="article-hero-overlay">
+          <span class="news-widget-tag" style="background:rgba(255,255,255,0.2);color:#fff;border-color:rgba(255,255,255,0.4);margin-bottom:12px;display:inline-flex;">
+            <i class="fas fa-tag" style="margin-right:6px;"></i> ${a.category || 'Berita'}
+          </span>
+          <h1 class="article-hero-title">${a.title}</h1>
+        </div>
+      </div>
+    `;
   }
 
-  // Header
-  const header = document.getElementById('articleHeader');
-  if (header) header.innerHTML = `
-    <span class="card-label card-label-primary" style="margin-bottom:16px;display:inline-flex;">${a.category || 'Berita'}</span>
-    <h1 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;line-height:1.25;margin-bottom:16px;">${a.title}</h1>
-    <div style="display:flex;gap:20px;flex-wrap:wrap;color:var(--text-muted);font-size:0.85rem;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-light);">
-      <span><i class="fas fa-user" style="margin-right:6px;color:var(--primary);"></i>${a.author || 'Admin'}</span>
-      <span><i class="fas fa-calendar" style="margin-right:6px;color:var(--primary);"></i>${formatDate(a.publishDate)}</span>
-      ${a.tags?.length ? `<span><i class="fas fa-tags" style="margin-right:6px;color:var(--primary);"></i>${a.tags.join(', ')}</span>` : ''}
-    </div>
-  `;
+  // Meta Data
+  const meta = document.getElementById('articleMeta');
+  if (meta) {
+    meta.innerHTML = `
+      <div class="article-meta-row">
+        <span><i class="fas fa-calendar-alt"></i> ${formatDate(a.publishDate)}</span>
+        <span><i class="fas fa-user"></i> ${a.author || 'Admin'}</span>
+        ${a.tags?.length ? `<span><i class="fas fa-tags"></i> ${a.tags.join(', ')}</span>` : ''}
+      </div>
+    `;
+  }
 
   // Breadcrumb
   const bc = document.getElementById('breadcrumbTitle');
@@ -250,13 +258,16 @@ function renderDetail(a) {
 
   // Share buttons
   const url = encodeURIComponent(window.location.href);
-  const title = encodeURIComponent(a.title);
-  document.getElementById('shareWa')?.setAttribute('href', `https://wa.me/?text=${title}%20${url}`);
+  const titleText = encodeURIComponent(a.title);
+  document.getElementById('shareWa')?.setAttribute('href', `https://wa.me/?text=${titleText}%20${url}`);
   document.getElementById('shareFb')?.setAttribute('href', `https://www.facebook.com/sharer/sharer.php?u=${url}`);
+  document.getElementById('shareX')?.setAttribute('href', `https://twitter.com/intent/tweet?url=${url}&text=${titleText}`);
+  document.getElementById('shareTg')?.setAttribute('href', `https://t.me/share/url?url=${url}&text=${titleText}`);
   document.getElementById('copyLink')?.addEventListener('click', () => {
     navigator.clipboard.writeText(window.location.href);
-    document.getElementById('copyLink').innerHTML = '<i class="fas fa-check"></i> Tersalin!';
-    setTimeout(() => { document.getElementById('copyLink').innerHTML = '<i class="fas fa-link"></i> Salin Link'; }, 2000);
+    const btn = document.getElementById('copyLink');
+    btn.innerHTML = '<i class="fas fa-check"></i>';
+    setTimeout(() => { btn.innerHTML = '<i class="fas fa-link"></i>'; }, 2000);
   });
 }
 
@@ -270,18 +281,17 @@ async function loadRelated(category, excludeId) {
       .map(d => ({ id: d.id, ...d.data() }))
       .filter(d => d.status === 'published' && d.category === category && d.id !== excludeId)
       .slice(0, 3);
-    if (!items.length) { grid.parentElement.style.display = 'none'; return; }
+    if (!items.length) { grid.parentElement.parentElement.style.display = 'none'; return; }
     grid.innerHTML = items.map(a => `
-      <a href="berita-detail.html?slug=${a.slug || a.id}" class="card" style="display:block;text-decoration:none;">
-        <img class="card-img" src="${a.thumbnail || 'https://via.placeholder.com/400x225?text=No+Image'}" alt="${a.title}" loading="lazy"/>
-        <div class="card-body">
-          <span class="card-label card-label-primary">${a.category || 'Berita'}</span>
-          <div class="card-title">${a.title}</div>
-          <div class="card-meta"><span class="card-meta-item"><i class="fas fa-calendar"></i> ${formatDate(a.publishDate)}</span></div>
+      <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-widget-item">
+        <img class="news-widget-thumb" src="${a.thumbnail || 'https://via.placeholder.com/64x52?text=NH'}" alt="${a.title}" loading="lazy" />
+        <div class="news-widget-item-body">
+          <div class="news-widget-item-title">${a.title}</div>
+          <div class="news-widget-item-date"><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>${formatDate(a.publishDate)}</div>
         </div>
       </a>
     `).join('');
-  } catch (err) { grid.parentElement.style.display = 'none'; }
+  } catch (err) { grid.parentElement.parentElement.style.display = 'none'; }
 }
 
 // ── INIT ───────────────────────────────────────────────────

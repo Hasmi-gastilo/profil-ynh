@@ -9,60 +9,133 @@
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" />
-  <style>
+    .article-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-light);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+
+    .article-hero-wrap {
+      position: relative;
+      width: 100%;
+      height: 400px;
+    }
+
+    .article-hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .article-hero-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 60px 40px 30px;
+      background: linear-gradient(180deg, transparent 0%, rgba(27, 79, 138, 0.8) 50%, var(--primary-dark) 100%);
+      color: #fff;
+    }
+
+    .article-hero-overlay.accent {
+      background: linear-gradient(180deg, transparent 0%, rgba(212, 160, 23, 0.8) 50%, #b48500 100%);
+    }
+
+    .article-hero-title {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 800;
+      line-height: 1.3;
+      margin: 0;
+      color: #fff;
+    }
+
+    .article-card-body {
+      padding: 40px;
+    }
+
+    .article-meta-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .article-meta-row span i {
+      color: var(--accent);
+      margin-right: 6px;
+    }
+
     .article-body {
-      max-width: 800px;
-      margin: 0 auto;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.8;
     }
 
     .article-body img {
       border-radius: var(--radius-lg);
-      margin: 20px auto;
+      margin: 24px auto;
       max-width: 100%;
     }
 
     .article-body h2,
     .article-body h3 {
       color: var(--text-primary);
-      margin: 24px 0 12px;
+      margin: 32px 0 16px;
+      font-weight: 800;
     }
 
     .article-body p {
-      margin-bottom: 16px;
-      line-height: 1.85;
-      color: var(--text-secondary);
+      margin-bottom: 20px;
     }
 
     .article-body ul,
     .article-body ol {
-      margin: 12px 0 12px 24px;
-      color: var(--text-secondary);
-      line-height: 1.75;
+      margin: 16px 0 16px 24px;
     }
 
     .article-body blockquote {
-      border-left: 4px solid var(--primary);
-      padding: 12px 20px;
-      margin: 20px 0;
-      background: var(--primary-50);
+      border-left: 4px solid var(--accent);
+      padding: 16px 24px;
+      margin: 24px 0;
+      background: rgba(212, 160, 23, 0.08);
       border-radius: 0 var(--radius-md) var(--radius-md) 0;
       font-style: italic;
+      color: var(--text-primary);
     }
 
-    .share-btn {
+    .share-icon-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border-radius: var(--radius-full);
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 200ms;
-      border: 2px solid;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-size: 1.1rem;
       text-decoration: none;
+      transition: transform var(--transition-fast);
     }
-  </style>
+
+    .share-icon-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .share-icon-btn.wa { background: #25D366; }
+    .share-icon-btn.fb { background: #1877F2; }
+    .share-icon-btn.x { background: #000000; }
+    .share-icon-btn.tg { background: #229ED9; }
+
+    @media (max-width: 768px) {
+      .article-hero-wrap { height: 300px; }
+      .article-hero-overlay { padding: 40px 20px 20px; }
+      .article-card-body { padding: 24px 20px; }
+    }
 </head>
 
 <body>
@@ -95,67 +168,78 @@
       href="faq.html" class="nav-link"><i class="fas fa-question-circle"></i> FAQ</a><a href="kontak.html" class="nav-link"><i class="fas fa-phone"></i> Kontak</a>
   </div>
 
-  <!-- Thumbnail Hero -->
-  <div id="articleHero" style="padding-top:var(--navbar-height);background:var(--primary-dark);">
-    <div class="skeleton" style="height:420px;border-radius:0;"></div>
-  </div>
-
-  <main class="section">
+  <main class="section" style="padding-top: calc(var(--navbar-height) + 40px);">
     <div class="container">
-      <div style="max-width:800px;margin:0 auto;">
-        <!-- Breadcrumb -->
-        <nav class="breadcrumb" style="color:var(--text-muted);margin-bottom:24px;">
-          <a href="index.html" style="color:var(--primary);">Beranda</a>
-          <span class="breadcrumb-sep">›</span>
-          <a href="berita.html" style="color:var(--primary);">Berita</a>
-          <span class="breadcrumb-sep">›</span>
-          <span id="breadcrumbTitle">...</span>
-        </nav>
+      <div class="news-page-layout">
+        <!-- Kolom Kiri: Detail Artikel -->
+        <div>
+          <!-- Breadcrumb -->
+          <nav class="breadcrumb" style="color:var(--text-muted);margin-bottom:24px;">
+            <a href="index.html" style="color:var(--primary);">Beranda</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="berita.html" style="color:var(--primary);">Berita</a>
+            <span class="breadcrumb-sep">›</span>
+            <span id="breadcrumbTitle">...</span>
+          </nav>
 
-        <!-- Article Header -->
-        <div id="articleHeader">
-          <div class="skeleton" style="height:16px;width:120px;margin-bottom:16px;"></div>
-          <div class="skeleton" style="height:36px;margin-bottom:12px;"></div>
-          <div class="skeleton" style="height:36px;width:70%;margin-bottom:20px;"></div>
-          <div class="skeleton" style="height:14px;width:300px;margin-bottom:32px;"></div>
-        </div>
+          <div class="article-card" id="articleCard">
+            <!-- Hero section -->
+            <div id="articleHero">
+              <div class="skeleton" style="height:400px;border-radius:0;"></div>
+            </div>
+            
+            <div class="article-card-body">
+              <!-- Meta Data -->
+              <div id="articleMeta">
+                <div class="skeleton" style="height:14px;width:300px;margin-bottom:24px;"></div>
+              </div>
 
-        <!-- Article Body -->
-        <div class="article-body" id="articleBody">
-          <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>
-          <div class="skeleton" style="height:16px;margin-bottom:10px;width:90%;"></div>
-          <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>
-        </div>
+              <!-- Article Body -->
+              <div class="article-body" id="articleBody">
+                <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>
+                <div class="skeleton" style="height:16px;margin-bottom:10px;width:90%;"></div>
+                <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>
+              </div>
+              
+              <!-- Tags -->
+              <div id="articleTags" style="margin-top:32px;display:none;">
+                <span style="font-size:0.8rem;font-weight:700;color:var(--text-muted);margin-right:8px;">Tags:</span>
+                <div id="tagList" style="display:inline-flex;gap:8px;flex-wrap:wrap;"></div>
+              </div>
 
-        <!-- Tags -->
-        <div id="articleTags" style="margin-top:32px;display:none;">
-          <span style="font-size:0.8rem;font-weight:700;color:var(--text-muted);margin-right:8px;">Tags:</span>
-          <div id="tagList" style="display:inline-flex;gap:8px;flex-wrap:wrap;"></div>
-        </div>
-
-        <!-- Share -->
-        <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border-light);">
-          <div style="font-size:0.85rem;font-weight:700;color:var(--text-muted);margin-bottom:12px;">Bagikan:</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <a id="shareWa" href="#" target="_blank" class="share-btn"
-              style="background:#25D366;color:#fff;border-color:#25D366;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-            <a id="shareFb" href="#" target="_blank" class="share-btn"
-              style="background:#1877F2;color:#fff;border-color:#1877F2;"><i class="fab fa-facebook-f"></i> Facebook</a>
-            <button id="copyLink" class="share-btn"
-              style="background:var(--bg-card);color:var(--text-primary);border-color:var(--border-medium);"><i
-                class="fas fa-link"></i> Salin Link</button>
+              <!-- Share & Back -->
+              <div style="margin-top:40px;padding-top:24px;border-top:1px solid var(--border-light);">
+                <div style="font-size:0.9rem;font-weight:800;color:var(--text-primary);margin-bottom:16px;">Bagikan Artikel</div>
+                <div style="display:flex;gap:12px;margin-bottom:32px;">
+                  <a id="shareWa" href="#" class="share-icon-btn wa"><i class="fab fa-whatsapp"></i></a>
+                  <a id="shareFb" href="#" class="share-icon-btn fb"><i class="fab fa-facebook-f"></i></a>
+                  <a id="shareX" href="#" class="share-icon-btn x"><i class="fab fa-twitter"></i></a>
+                  <a id="shareTg" href="#" class="share-icon-btn tg"><i class="fab fa-telegram-plane"></i></a>
+                  <button id="copyLink" class="share-icon-btn" style="background:var(--primary);border:none;cursor:pointer;"><i class="fas fa-link"></i></button>
+                </div>
+                <a href="berita.html" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;border-radius:var(--radius-md);">
+                  <i class="fas fa-arrow-left"></i> Kembali ke Berita
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Related Articles -->
-      <div style="margin-top:60px;">
-        <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:24px;">Berita Terkait</h2>
-        <div class="grid-3" id="relatedNews">
-          <div class="skeleton" style="height:280px;border-radius:20px;"></div>
-          <div class="skeleton" style="height:280px;border-radius:20px;"></div>
-          <div class="skeleton" style="height:280px;border-radius:20px;"></div>
-        </div>
+        <!-- Kolom Kanan: Berita Lainnya -->
+        <aside>
+          <div class="news-widget">
+            <div class="news-widget-header accent">
+              <i class="fas fa-newspaper"></i> Berita Lainnya
+            </div>
+            <div class="news-widget-body" style="padding: 12px 20px;">
+              <div class="news-widget-list" id="relatedNews">
+                <div class="skeleton" style="height:52px;margin:12px 0;"></div>
+                <div class="skeleton" style="height:52px;margin:12px 0;"></div>
+                <div class="skeleton" style="height:52px;margin:12px 0;"></div>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   </main>
@@ -202,7 +286,7 @@
   </footer>
   <a href="#" class="wa-float" id="waFloat" style="display:none;"><i
       class="fab fa-whatsapp wa-float-icon"></i><span>Hubungi Kami</span></a>
-  <script type="module" src="assets/js/berita.js"></script>
+  <script type="module" src="assets/js/berita.js?v=4"></script>
 </body>
 
 </html>
