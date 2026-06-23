@@ -5,7 +5,7 @@
 
 import { db } from './firebase-init.js';
 import {
-  collection, getDocs, query, orderBy, limit
+  collection, getDocs, query, orderBy, limit, where
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { initApp, formatDate, truncate } from './app.js';
 
@@ -187,14 +187,17 @@ async function loadNews() {
   if (!grid) return;
 
   try {
+    // Filter status di client untuk menghindari kebutuhan composite index Firestore
     const q = query(
       collection(db, 'berita'),
-      where('status', '==', 'published'),
       orderBy('publishDate', 'desc'),
-      limit(4)
+      limit(10)
     );
     const snap = await getDocs(q);
-    const articles = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const articles = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter(a => a.status === 'published')
+      .slice(0, 4);
 
     if (!articles.length) {
       grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">
@@ -249,12 +252,26 @@ async function loadPrestasi() {
   if (!grid) return;
 
   try {
-    const q = query(collection(db, 'prestasi'), orderBy('year', 'desc'), limit(4));
-    const snap = await getDocs(q);
-    const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    // Gunakan orderBy year desc seperti di prestasi.js, dengan fallback jika index belum ada
+    let items = [];
+    try {
+      const q = query(collection(db, 'prestasi'), orderBy('year', 'desc'), limit(4));
+      const snap = await getDocs(q);
+      items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch (indexErr) {
+      // Fallback: ambil tanpa orderBy jika index belum dibuat
+      console.warn('Firestore index belum ada, fallback tanpa orderBy:', indexErr.message);
+      const q2 = query(collection(db, 'prestasi'), limit(20));
+      const snap2 = await getDocs(q2);
+      items = snap2.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (b.year || 0) - (a.year || 0))
+        .slice(0, 4);
+    }
 
     if (!items.length) {
       grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">
+        <i class="fas fa-trophy" style="font-size:2rem;display:block;margin-bottom:12px;opacity:0.3;"></i>
         Belum ada data prestasi.
       </div>`;
       return;
@@ -274,20 +291,27 @@ async function loadPrestasi() {
       return `
         <div class="achievement-card fade-in">
           ${p.photo
-            ? `<img class="achievement-medal" src="${p.photo}" alt="${p.studentName}" loading="lazy" />`
+            ? `<img class="achievement-medal" src="${p.photo}" alt="${p.studentName || 'Prestasi'}" loading="lazy" />`
             : `<div class="achievement-medal-placeholder">🏆</div>`
           }
-          <div class="achievement-title">${p.title}</div>
+          <div class="achievement-title">${p.title || 'Prestasi'}</div>
           <div class="achievement-name">${p.studentName || ''}</div>
           <span class="achievement-badge" style="background:${color}15;color:${color};">
-            ${p.level || ''} — ${p.year || ''}
+            ${p.level || ''} &bull; ${p.year || ''}
           </span>
         </div>
       `;
     }).join('');
+
+    // Trigger fade-in animation
+    grid.querySelectorAll('.fade-in').forEach(el => setTimeout(() => el.classList.add('visible'), 50));
+
   } catch (err) {
     console.warn('Could not load achievements:', err.message);
-    grid.innerHTML = '';
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-muted);">
+      <i class="fas fa-exclamation-circle" style="font-size:2rem;display:block;margin-bottom:12px;opacity:0.3;"></i>
+      Gagal memuat data prestasi.
+    </div>`;
   }
 }
 

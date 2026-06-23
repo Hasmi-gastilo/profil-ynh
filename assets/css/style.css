@@ -916,6 +916,20 @@ p {
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg); }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-lg); }
 
+/* Grid responsive */
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: 1fr; }
+}
+
 /* ── STATS COUNTER ── */
 .stats-section {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
@@ -3301,4 +3315,186 @@ img { max-width: 100%; height: auto; }
     letter-spacing: 0.02em;
     white-space: nowrap;
   }
+}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE — KOMPREHENSIF UNTUK HP
+   ══════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 1024px) ── */
+@media (max-width: 1024px) {
+  .container { padding: 0 20px; }
+
+  /* Navbar */
+  .navbar-nav { gap: 2px; }
+  .nav-link { padding: 7px 10px; font-size: 0.82rem; }
+
+  /* News grid */
+  .news-grid { grid-template-columns: 1fr; }
+  .news-featured .card-title { font-size: 1.15rem; }
+
+  /* Stats */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+}
+
+/* ── Mobile (≤ 768px) ── */
+@media (max-width: 768px) {
+  :root { --navbar-height: 64px; }
+
+  .container { padding: 0 16px; }
+  .section { padding: 48px 0; }
+  .section-sm { padding: 32px 0; }
+
+  /* Navbar — tampilkan hamburger */
+  .navbar-nav { display: none; }
+  .navbar-toggle { display: flex; }
+  .btn-daftar { padding: 8px 16px; font-size: 0.8rem; }
+  .navbar-logo { width: 38px; height: 38px; }
+  .navbar-brand-name { font-size: 0.78rem; }
+
+  /* Hero */
+  .hero { height: 100svh; min-height: 480px; max-height: 700px; }
+  .hero-title { font-size: clamp(1.6rem, 7vw, 2.4rem) !important; }
+  .hero-subtitle { font-size: 0.9rem !important; }
+  .hero-actions { gap: 10px; }
+  .hero-actions .btn { padding: 11px 20px; font-size: 0.85rem; }
+  .hero-prev, .hero-next { width: 36px; height: 36px; font-size: 1rem; }
+  .hero-prev { left: 12px; }
+  .hero-next { right: 12px; }
+  .hero-badge { font-size: 0.65rem; padding: 5px 12px; }
+
+  /* Section header */
+  .section-title { font-size: clamp(1.35rem, 5vw, 1.9rem); }
+  .section-subtitle { font-size: 0.9rem; }
+  .section-header { margin-bottom: 32px; }
+
+  /* Unit sekolah — horizontal scroll untuk 5 kartu */
+  #unitGrid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 12px !important;
+  }
+  .unit-card { padding: 20px 12px 16px; }
+  .unit-icon { width: 52px; height: 52px; }
+  .unit-fa-icon { font-size: 1.4rem; }
+
+  /* Stats */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat-item { padding: 20px 12px; }
+  .stat-number { font-size: 1.8rem; }
+
+  /* News */
+  .news-grid { grid-template-columns: 1fr; gap: 20px; }
+  .news-list-item { padding: 12px; }
+  .news-list-thumb { width: 64px; height: 64px; }
+
+  /* Achievement cards */
+  .achievement-card { padding: 20px 16px; }
+  .achievement-medal { width: 60px; height: 60px; }
+  .achievement-medal-placeholder { width: 60px; height: 60px; font-size: 1.5rem; }
+  .achievement-title { font-size: 0.88rem; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .footer { padding: 48px 0 0; }
+  .footer-bottom { padding: 16px 0; }
+
+  /* FAQ section */
+  #homeFaq { margin-top: 24px; }
+
+  /* PPDB banner */
+  .ppdb-banner { padding: 28px 20px; border-radius: var(--radius-xl); }
+
+  /* Buttons */
+  .btn-lg { padding: 14px 28px; font-size: 0.92rem; }
+
+  /* Page hero inner pages */
+  .page-hero { padding: 64px 0 40px; }
+  .page-hero-title { font-size: clamp(1.4rem, 6vw, 2rem); }
+
+  /* Prestasi grid di beranda — 2 kolom */
+  #prestasiGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+  }
+
+  /* Galeri beranda */
+  #homeGallery {
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-auto-rows: 160px !important;
+  }
+}
+
+/* ── Kecil (≤ 480px) ── */
+@media (max-width: 480px) {
+  .container { padding: 0 14px; }
+  .section { padding: 36px 0; }
+
+  /* Hero */
+  .hero-title { font-size: clamp(1.4rem, 8vw, 2rem) !important; }
+  .hero-actions { flex-direction: column; gap: 10px; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+
+  /* Unit sekolah — 2 kolom di HP kecil */
+  #unitGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* Stats — 2 kolom */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-item { padding: 16px 10px; }
+  .stat-number { font-size: 1.6rem; }
+  .stat-icon { width: 44px; height: 44px; font-size: 1.2rem; }
+
+  /* Achievement cards — 1 kolom di HP kecil */
+  #prestasiGrid {
+    grid-template-columns: 1fr !important;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  /* News */
+  .news-list-thumb { width: 56px; height: 56px; }
+  .news-list-title { font-size: 0.8rem; }
+
+  /* Principal */
+  .principal-card { gap: 28px; }
+  .principal-quote { font-size: 0.95rem; }
+
+  /* Galeri beranda */
+  #homeGallery {
+    grid-template-columns: 1fr !important;
+    grid-auto-rows: 200px !important;
+  }
+
+  /* Gallery grid halaman galeri */
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-auto-rows: 150px !important;
+  }
+
+  /* Footer */
+  .footer-bottom > .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+  }
+
+  /* FAQ */
+  .faq-question { font-size: 0.88rem; padding: 14px; }
+
+  /* Buttons */
+  .btn { padding: 11px 22px; }
+  .btn-lg { padding: 12px 24px; font-size: 0.88rem; }
+
+  /* Section label */
+  .section-label { font-size: 0.68rem; }
+
+  /* WA Float — lebih kecil di HP */
+  .wa-float { padding: 10px 14px; font-size: 0.8rem; }
+  .wa-float-icon { font-size: 1.1rem; }
 }
