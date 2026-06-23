@@ -7,7 +7,7 @@
   <meta name="description" content="Berita dan informasi terbaru dari LPI Nurul Huda Kapedi." />
   <title>Berita — LPI Nurul Huda Kapedi</title>
   <link rel="icon" type="image/png" href="assets/images/logo.png" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css?v=15" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" />
 </head>
@@ -53,30 +53,68 @@
 
   <main class="section">
     <div class="container">
-      <!-- Search & Filter -->
-      <div style="display:flex;gap:16px;margin-bottom:32px;flex-wrap:wrap;align-items:center;">
-        <div class="search-box" style="flex:1;min-width:200px;">
-          <input type="text" id="searchInput" placeholder="Cari berita..." aria-label="Cari berita" />
-          <i class="fas fa-search"></i>
+      <div class="news-page-layout">
+        <!-- Kolom Kiri: Grid Berita -->
+        <div>
+          <div class="news-page-grid" id="newsGrid">
+            <!-- Skeleton Loader -->
+            <div class="skeleton" style="height:320px;border-radius:20px;"></div>
+            <div class="skeleton" style="height:320px;border-radius:20px;"></div>
+            <div class="skeleton" style="height:320px;border-radius:20px;"></div>
+            <div class="skeleton" style="height:320px;border-radius:20px;"></div>
+          </div>
+          
+          <div id="emptyNews" style="display:none;text-align:center;padding:60px 20px;">
+            <div style="font-size:3rem;margin-bottom:16px;opacity:0.3;">📰</div>
+            <div style="font-weight:700;color:var(--text-muted);">Belum ada berita tersedia.</div>
+          </div>
+
+          <div id="loadMoreWrap" class="text-center mt-xl" style="display:none;">
+            <button class="btn btn-outline-primary" id="loadMoreBtn"><i class="fas fa-plus"></i> Muat Lebih Banyak</button>
+          </div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="categoryFilter">
-          <button class="gallery-tab active" data-cat="all">Semua</button>
-        </div>
-      </div>
 
-      <div class="grid-3" id="newsGrid">
-        <div class="skeleton" style="height:320px;border-radius:20px;"></div>
-        <div class="skeleton" style="height:320px;border-radius:20px;"></div>
-        <div class="skeleton" style="height:320px;border-radius:20px;"></div>
-      </div>
+        <!-- Kolom Kanan: Sidebar Widgets -->
+        <aside>
+          <!-- Widget Cari Berita -->
+          <div class="news-widget">
+            <div class="news-widget-header accent">
+              <i class="fas fa-search"></i> Cari Berita
+            </div>
+            <div class="news-widget-body">
+              <div class="news-widget-search">
+                <input type="text" id="searchInput" placeholder="Ketik berita..." aria-label="Cari berita" />
+                <button id="searchBtn">Temukan</button>
+              </div>
+            </div>
+          </div>
 
-      <div id="loadMoreWrap" class="text-center mt-xl" style="display:none;">
-        <button class="btn btn-outline-primary" id="loadMoreBtn"><i class="fas fa-plus"></i> Muat Lebih Banyak</button>
-      </div>
+          <!-- Widget Berita Terkini -->
+          <div class="news-widget">
+            <div class="news-widget-header accent">
+              <i class="fas fa-clock"></i> Berita Terkini
+            </div>
+            <div class="news-widget-body" style="padding: 12px 20px;">
+              <div class="news-widget-list" id="latestNewsList">
+                <div class="skeleton" style="height: 52px; margin: 12px 0;"></div>
+                <div class="skeleton" style="height: 52px; margin: 12px 0;"></div>
+                <div class="skeleton" style="height: 52px; margin: 12px 0;"></div>
+              </div>
+            </div>
+          </div>
 
-      <div id="emptyNews" style="display:none;text-align:center;padding:60px 20px;">
-        <div style="font-size:3rem;margin-bottom:16px;opacity:0.3;">📰</div>
-        <div style="font-weight:700;color:var(--text-muted);">Belum ada berita tersedia.</div>
+          <!-- Widget Kategori -->
+          <div class="news-widget">
+            <div class="news-widget-header accent">
+              <i class="fas fa-tags"></i> Kategori
+            </div>
+            <div class="news-widget-body">
+              <div class="news-widget-tags" id="categoryFilter">
+                <button class="news-widget-tag active" data-cat="all">Semua</button>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   </main>
@@ -130,7 +168,7 @@
   </footer>
   <a href="#" class="wa-float" id="waFloat" style="display:none;"><i
       class="fab fa-whatsapp wa-float-icon"></i><span>Hubungi Kami</span></a>
-  <script type="module" src="assets/js/berita.js"></script>
+  <script type="module" src="assets/js/berita.js?v=2"></script>
 </body>
 
 </html>

@@ -14,11 +14,19 @@ let allArticles = [];
 async function initListPage() {
   await loadCategories();
   await loadNews(true);
+  await loadLatestNewsSidebar();
 
   const searchInput = document.getElementById('searchInput');
-  searchInput?.addEventListener('input', () => {
-    searchQuery = searchInput.value.toLowerCase().trim();
+  const searchBtn = document.getElementById('searchBtn');
+  
+  const doSearch = () => {
+    searchQuery = searchInput?.value.toLowerCase().trim() || '';
     renderFiltered();
+  };
+
+  searchBtn?.addEventListener('click', doSearch);
+  searchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') doSearch();
   });
 
   document.getElementById('loadMoreBtn')?.addEventListener('click', () => loadNews(false));
@@ -33,14 +41,18 @@ async function loadCategories() {
 
     const filter = document.getElementById('categoryFilter');
     if (!filter) return;
+    
+    // Clear existing (except 'Semua')
+    filter.innerHTML = '<button class="news-widget-tag active" data-cat="all">Semua</button>';
+    
     cats.forEach(cat => {
       const btn = document.createElement('button');
-      btn.className = 'gallery-tab';
+      btn.className = 'news-widget-tag';
       btn.dataset.cat = cat;
       btn.textContent = cat;
       btn.addEventListener('click', () => {
         currentCat = cat;
-        document.querySelectorAll('#categoryFilter .gallery-tab').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#categoryFilter .news-widget-tag').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         renderFiltered();
       });
@@ -49,7 +61,7 @@ async function loadCategories() {
 
     filter.querySelector('[data-cat="all"]')?.addEventListener('click', (e) => {
       currentCat = 'all';
-      document.querySelectorAll('#categoryFilter .gallery-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#categoryFilter .news-widget-tag').forEach(b => b.classList.remove('active'));
       e.target.classList.add('active');
       renderFiltered();
     });
@@ -82,7 +94,8 @@ function renderFiltered() {
   if (currentCat !== 'all') filtered = filtered.filter(a => a.category === currentCat);
   if (searchQuery) filtered = filtered.filter(a =>
     a.title?.toLowerCase().includes(searchQuery) ||
-    a.excerpt?.toLowerCase().includes(searchQuery)
+    a.excerpt?.toLowerCase().includes(searchQuery) ||
+    a.content?.toLowerCase().includes(searchQuery)
   );
 
   if (!filtered.length) {
@@ -92,23 +105,65 @@ function renderFiltered() {
   }
   if (empty) empty.style.display = 'none';
 
-  grid.innerHTML = filtered.map(a => `
-    <a href="berita-detail.html?slug=${a.slug || a.id}" class="card" style="display:block;text-decoration:none;">
-      <img class="card-img" src="${a.thumbnail || 'https://via.placeholder.com/400x225?text=No+Image'}" alt="${a.title}" loading="lazy" />
-      <div class="card-body">
-        <span class="card-label card-label-primary">${a.category || 'Berita'}</span>
-        <div class="card-title">${a.title}</div>
-        <div class="card-meta">
-          <span class="card-meta-item"><i class="fas fa-user"></i> ${a.author || 'Admin'}</span>
-          <span class="card-meta-item"><i class="fas fa-calendar"></i> ${formatDate(a.publishDate)}</span>
-        </div>
-        <p class="card-text">${truncate(a.excerpt || (a.content || '').replace(/<[^>]+>/g, ''), 120)}</p>
+  const isRecent = (dateStr) => {
+    if (!dateStr) return false;
+    const diffTime = Math.abs(new Date() - new Date(dateStr));
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays <= 7;
+  };
+
+  grid.innerHTML = filtered.map((a, i) => {
+    // Selang-seling warna header (hijau gelap/primer atau orange/accent)
+    const isAccent = i % 2 !== 0 ? 'accent' : '';
+    const isNew = isRecent(a.publishDate) ? `<div class="news-badge-new">BARU</div>` : '';
+    
+    return `
+    <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-page-card" style="text-decoration:none;">
+      <div class="news-page-card-header ${isAccent}">
+        <i class="fas fa-newspaper"></i> ${a.category || 'Berita Umum'}
       </div>
-      <div class="card-footer">
-        <span style="font-size:0.82rem;font-weight:700;color:var(--primary);">Baca Selengkapnya →</span>
+      <div class="news-page-card-img-wrap">
+        ${isNew}
+        <img class="news-page-card-img" src="${a.thumbnail || 'https://via.placeholder.com/400x225?text=No+Image'}" alt="${a.title}" loading="lazy" />
+      </div>
+      <div class="news-page-card-body">
+        <h3 class="news-page-card-title">${a.title}</h3>
+        <p class="news-page-card-excerpt">${truncate(a.excerpt || (a.content || '').replace(/<[^>]+>/g, ''), 120)}</p>
+        <div class="news-page-card-footer">
+          <span><i class="fas fa-calendar-alt"></i> ${formatDate(a.publishDate)}</span>
+          <span class="news-page-card-read">Baca <i class="fas fa-arrow-right"></i></span>
+        </div>
       </div>
     </a>
-  `).join('');
+  `}).join('');
+}
+
+async function loadLatestNewsSidebar() {
+  const list = document.getElementById('latestNewsList');
+  if (!list) return;
+
+  try {
+    const q = query(collection(db, 'berita'), where('status', '==', 'published'), orderBy('publishDate', 'desc'), limit(5));
+    const snap = await getDocs(q);
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    
+    if (!docs.length) {
+      list.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:12px;">Belum ada berita.</div>';
+      return;
+    }
+
+    list.innerHTML = docs.map(a => `
+      <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-widget-item">
+        <img class="news-widget-thumb" src="${a.thumbnail || 'https://via.placeholder.com/64x52?text=NH'}" alt="${a.title}" loading="lazy" />
+        <div class="news-widget-item-body">
+          <div class="news-widget-item-title">${a.title}</div>
+          <div class="news-widget-item-date"><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>${formatDate(a.publishDate)}</div>
+        </div>
+      </a>
+    `).join('');
+  } catch(err) {
+    list.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;">Gagal memuat berita terkini.</div>';
+  }
 }
 
 // ── DETAIL PAGE ────────────────────────────────────────────
