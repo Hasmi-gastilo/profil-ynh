@@ -3856,10 +3856,10 @@ img { max-width: 100%; height: auto; }
 
   /* Hero */
   .hero { height: 100svh; min-height: 480px; max-height: 700px; }
-  .hero-title { font-size: clamp(1.6rem, 7vw, 2.4rem) !important; }
-  .hero-subtitle { font-size: 0.9rem !important; }
-  .hero-actions { gap: 10px; }
-  .hero-actions .btn { padding: 11px 20px; font-size: 0.85rem; }
+  .hero-title { font-size: clamp(1.4rem, 6vw, 2rem) !important; }
+  .hero-subtitle { font-size: 0.85rem !important; line-height: 1.6; margin-bottom: 24px; }
+  .hero-actions { flex-direction: column; gap: 12px; }
+  .hero-actions .btn { width: 100%; justify-content: center; padding: 11px 20px; font-size: 0.85rem; }
   .hero-prev, .hero-next { width: 36px; height: 36px; font-size: 1rem; }
   .hero-prev { left: 12px; }
   .hero-next { right: 12px; }
@@ -3936,9 +3936,9 @@ img { max-width: 100%; height: auto; }
   .section { padding: 36px 0; }
 
   /* Hero */
-  .hero-title { font-size: clamp(1.4rem, 8vw, 2rem) !important; }
-  .hero-actions { flex-direction: column; gap: 10px; }
-  .hero-actions .btn { width: 100%; justify-content: center; }
+  .hero-title { font-size: clamp(1.2rem, 7vw, 1.8rem) !important; }
+  .hero-subtitle { font-size: 0.8rem !important; }
+  .hero-actions { gap: 10px; }
 
   /* Unit sekolah — 2 kolom di HP kecil */
   #unitGrid {
