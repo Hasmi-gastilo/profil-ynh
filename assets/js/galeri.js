@@ -39,12 +39,23 @@ function render() {
   const empty = document.getElementById('emptyGallery');
   if (!allPhotos.length) { grid.innerHTML = ''; empty.style.display = ''; return; }
   empty.style.display = 'none';
-  grid.innerHTML = allPhotos.map((g, i) => `
-    <div class="gallery-item fade-in ${g.orientation || 'square'}" data-index="${i}" tabindex="0" role="button" aria-label="Lihat foto ${g.title || ''}">
-      <img src="${g.imageUrl}" alt="${g.title || 'Galeri'}" loading="lazy" />
-      <div class="gallery-item-overlay"><span class="gallery-item-title">${g.title || ''}</span></div>
-    </div>
-  `).join('');
+  grid.innerHTML = allPhotos.map((g, i) => {
+    // Terapkan photoPos sebagai object-position CSS (geser+zoom dari admin)
+    const objPos = g.photoPos
+      ? `${g.photoPos.x ?? 50}% ${g.photoPos.y ?? 50}%`
+      : '50% 50%';
+    const objScale = g.photoPos?.scale && g.photoPos.scale !== 1
+      ? `scale(${g.photoPos.scale})`
+      : '';
+    return `
+      <div class="gallery-item fade-in ${g.orientation || 'square'}" data-index="${i}"
+           tabindex="0" role="button" aria-label="Lihat foto ${g.title || ''}">
+        <img src="${g.imageUrl}" alt="${g.title || 'Galeri'}" loading="lazy"
+             style="object-position:${objPos};${objScale ? `transform:${objScale};transform-origin:${objPos};` : ''}" />
+        <div class="gallery-item-overlay"><span class="gallery-item-title">${g.title || ''}</span></div>
+      </div>
+    `;
+  }).join('');
   grid.querySelectorAll('.gallery-item').forEach((el, i) => {
     el.addEventListener('click', () => openLightbox(i));
     el.addEventListener('keydown', e => { if (e.key === 'Enter') openLightbox(i); });
