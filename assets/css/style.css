@@ -1235,9 +1235,9 @@ p {
 
 /* Card Berita Baru */
 .news-page-card {
-  background: var(--bg-card);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(27, 79, 138, 0.03) 100%);
   border-radius: var(--radius-xl);
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(27, 79, 138, 0.1);
   overflow: hidden;
   transition: all var(--transition-base);
   display: flex;
@@ -1248,8 +1248,9 @@ p {
 
 .news-page-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--primary-200);
+  box-shadow: 0 10px 25px rgba(27, 79, 138, 0.1);
+  border-color: rgba(27, 79, 138, 0.25);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(27, 79, 138, 0.06) 100%);
 }
 
 .news-page-card-header {
