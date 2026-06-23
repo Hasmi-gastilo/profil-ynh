@@ -34,10 +34,13 @@ async function initListPage() {
 
 async function loadCategories() {
   try {
-    const q = query(collection(db, 'berita'), where('status', '==', 'published'));
+    const q = query(collection(db, 'berita'));
     const snap = await getDocs(q);
     const cats = new Set();
-    snap.docs.forEach(d => { if (d.data().category) cats.add(d.data().category); });
+    snap.docs.forEach(d => { 
+      const data = d.data();
+      if (data.status === 'published' && data.category) cats.add(data.category); 
+    });
 
     const filter = document.getElementById('categoryFilter');
     if (!filter) return;
@@ -71,13 +74,19 @@ async function loadCategories() {
 async function loadNews(reset = true) {
   if (reset) { allArticles = []; lastDoc = null; }
   try {
-    let q = query(collection(db, 'berita'), where('status', '==', 'published'), orderBy('publishDate', 'desc'), limit(PAGE_SIZE));
-    if (lastDoc) q = query(collection(db, 'berita'), where('status', '==', 'published'), orderBy('publishDate', 'desc'), startAfter(lastDoc), limit(PAGE_SIZE));
+    let q = query(collection(db, 'berita'), orderBy('publishDate', 'desc'), limit(PAGE_SIZE + 5)); // Fetch extra in case of unpublished
+    if (lastDoc) q = query(collection(db, 'berita'), orderBy('publishDate', 'desc'), startAfter(lastDoc), limit(PAGE_SIZE + 5));
     const snap = await getDocs(q);
-    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    
+    // Filter client-side
+    let docs = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(a => a.status === 'published');
+    
+    // Jika lebih dari PAGE_SIZE, potong
+    if (docs.length > PAGE_SIZE) docs = docs.slice(0, PAGE_SIZE);
+
     lastDoc = snap.docs[snap.docs.length - 1] || null;
     allArticles = reset ? docs : [...allArticles, ...docs];
-    document.getElementById('loadMoreWrap').style.display = snap.docs.length === PAGE_SIZE ? '' : 'none';
+    document.getElementById('loadMoreWrap').style.display = snap.docs.length >= PAGE_SIZE ? '' : 'none';
     renderFiltered();
   } catch (err) {
     console.warn('News load error:', err.message);
@@ -143,9 +152,9 @@ async function loadLatestNewsSidebar() {
   if (!list) return;
 
   try {
-    const q = query(collection(db, 'berita'), where('status', '==', 'published'), orderBy('publishDate', 'desc'), limit(5));
+    const q = query(collection(db, 'berita'), orderBy('publishDate', 'desc'), limit(10));
     const snap = await getDocs(q);
-    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(a => a.status === 'published').slice(0, 5);
     
     if (!docs.length) {
       list.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;text-align:center;padding:12px;">Belum ada berita.</div>';
@@ -255,9 +264,12 @@ async function loadRelated(category, excludeId) {
   const grid = document.getElementById('relatedNews');
   if (!grid) return;
   try {
-    const q = query(collection(db, 'berita'), where('status', '==', 'published'), where('category', '==', category), limit(4));
+    const q = query(collection(db, 'berita'), limit(20)); // Limit a bit larger
     const snap = await getDocs(q);
-    const items = snap.docs.filter(d => d.id !== excludeId).slice(0, 3).map(d => ({ id: d.id, ...d.data() }));
+    const items = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter(d => d.status === 'published' && d.category === category && d.id !== excludeId)
+      .slice(0, 3);
     if (!items.length) { grid.parentElement.style.display = 'none'; return; }
     grid.innerHTML = items.map(a => `
       <a href="berita-detail.html?slug=${a.slug || a.id}" class="card" style="display:block;text-decoration:none;">
