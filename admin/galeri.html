@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Manajemen Galeri — Admin LPI Nurul Huda</title>
   <link rel="icon" type="image/png" href="../assets/images/logo.png" />
-  <link rel="stylesheet" href="../assets/css/admin.css?v=7" />
+  <link rel="stylesheet" href="../assets/css/admin.css?v=8" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" />
 </head>
@@ -58,7 +58,12 @@
             <div class="upload-text">Klik atau seret foto (multiple)</div>
             <div class="upload-hint">JPG, PNG, WebP — Maks 5MB per foto</div>
           </div>
-          <div id="uploadPreviews" class="upload-preview" style="margin-top:12px;"></div>
+          <!-- Thumbnail strip untuk pilih file yang mau diatur posisi -->
+          <div id="uploadPreviews" class="upload-preview ipe-batch-strip" style="margin-top:12px;"></div>
+          <!-- Label file aktif -->
+          <div id="currentFileLabel" style="font-size:0.8rem;color:var(--admin-text-muted);margin:8px 0 4px;display:none;"></div>
+          <!-- Image Position Editor untuk tiap file -->
+          <div id="galeriEditorContainer"></div>
           <div style="margin-top:16px;" id="uploadProgressWrap" style="display:none;">
             <div class="progress-bar-wrap">
               <div class="progress-bar" id="uploadProgressBar"></div>
@@ -101,7 +106,7 @@
     </div>
   </div>
   <div id="adminToastContainer" class="admin-toast-container"></div>
-  <script type="module" src="../assets/js/admin/galeri-admin.js?v=2"></script>
+  <script type="module" src="../assets/js/admin/galeri-admin.js?v=3"></script>
 </body>
 
 </html>

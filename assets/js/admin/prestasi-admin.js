@@ -3,8 +3,10 @@ import { db } from '../firebase-init.js';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { initAdmin, renderSidebar, renderTopbar, showToast, confirmDelete, uploadImageWithProgress, formatDate } from './admin-app.js';
+import { createImagePositionEditor, positionToCSS } from './image-position-editor.js';
 
 let items = [];
+let photoEditor = null;  // instance image position editor
 
 async function load() {
   const tbody = document.getElementById('dataTable');
@@ -18,7 +20,12 @@ async function load() {
     }
     tbody.innerHTML = items.map(p => `
       <tr>
-        <td>${p.photo ? `<img class="table-img" src="${p.photo}" alt="${p.studentName}" style="border-radius:50%;"/>` : `<div class="table-img" style="display:flex;align-items:center;justify-content:center;background:var(--admin-bg);font-size:1.2rem;border-radius:50%;">🏆</div>`}</td>
+        <td>${p.photo
+          ? `<img class="table-img" src="${p.photo}" alt="${p.studentName}"
+               style="border-radius:50%;object-fit:cover;object-position:${positionToCSS(p.photoPos)};"
+               title="Zoom: ${p.photoPos?.scale ? Math.round(p.photoPos.scale*100)+'%' : '100%'}" />`
+          : `<div class="table-img" style="display:flex;align-items:center;justify-content:center;background:var(--admin-bg);font-size:1.2rem;border-radius:50%;">🏆</div>`}
+        </td>
         <td><div class="table-title">${p.title || '-'}</div></td>
         <td style="font-size:0.85rem;">${p.studentName || '-'}</td>
         <td><span class="badge badge-primary">${p.level || '-'}</span></td>
@@ -41,8 +48,19 @@ function open(id = null) {
   document.getElementById('fYear').value = item?.year || new Date().getFullYear();
   document.getElementById('fDesc').value = item?.description || '';
   document.getElementById('fPhotoUrl').value = item?.photo || '';
-  const prev = document.getElementById('photoPreview');
-  if (item?.photo) { prev.src = item.photo; prev.style.display = ''; } else prev.style.display = 'none';
+
+  // Reset file input
+  document.getElementById('fPhoto').value = '';
+
+  // Load image ke editor
+  if (photoEditor) {
+    if (item?.photo) {
+      photoEditor.loadImage(item.photo, item.photoPos || null);
+    } else {
+      photoEditor.hide();
+    }
+  }
+
   document.getElementById('dataModal').classList.add('open');
 }
 
@@ -69,13 +87,19 @@ async function save() {
       document.getElementById('photoProgress').style.display = '';
       photo = await uploadImageWithProgress(f, 'achievements', pct => { document.getElementById('photoProgressBar').style.width = pct + '%'; });
     }
+
+    // Ambil posisi dari editor
+    const photoPos = photo && photoEditor ? photoEditor.getPosition() : null;
+
     const id = document.getElementById('itemId').value;
     const data = {
       title, studentName: student,
       level: document.getElementById('fLevel').value,
       year: document.getElementById('fYear').value,
       description: document.getElementById('fDesc').value.trim(),
-      photo, updatedAt: serverTimestamp()
+      photo,
+      photoPos,   // { x, y, scale }
+      updatedAt: serverTimestamp()
     };
     if (id) { await updateDoc(doc(db, 'prestasi', id), data); showToast('Prestasi diperbarui'); }
     else { data.createdAt = serverTimestamp(); await addDoc(collection(db, 'prestasi'), data); showToast('Prestasi ditambahkan'); }
@@ -88,14 +112,32 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('adminSidebarSlot').innerHTML = renderSidebar('prestasi');
   document.getElementById('adminTopbarSlot').innerHTML = renderTopbar('Manajemen Prestasi');
   await initAdmin('prestasi');
+
+  // Inisialisasi image position editor (tampilan bulat untuk foto profil prestasi)
+  const editorContainer = document.getElementById('photoEditorContainer');
+  if (editorContainer) {
+    photoEditor = createImagePositionEditor(editorContainer, {
+      aspectRatio: '1/1',
+      shape: 'circle',
+    });
+  }
+
   document.getElementById('btnAdd').onclick = () => open();
   document.getElementById('closeModal').onclick = closeModal;
   document.getElementById('cancelModal').onclick = closeModal;
   document.getElementById('saveItem').onclick = save;
   document.getElementById('dataModal').onclick = e => { if (e.target === e.currentTarget) closeModal(); };
+
+  // Saat file dipilih → tampilkan di editor
   document.getElementById('fPhoto').onchange = e => {
     const f = e.target.files[0];
-    if (f) { const r = new FileReader(); r.onload = ev => { const p = document.getElementById('photoPreview'); p.src = ev.target.result; p.style.display = ''; }; r.readAsDataURL(f); }
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      if (photoEditor) photoEditor.loadImage(ev.target.result);
+    };
+    reader.readAsDataURL(f);
   };
+
   await load();
 });
