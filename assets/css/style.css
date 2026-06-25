@@ -501,27 +501,37 @@ p {
   display: flex;
   visibility: hidden;
   opacity: 0;
-  transform: translateY(-15px) scale(0.98);
+  transform: translateY(-20px) scaleY(0.92);
+  pointer-events: none;
   position: fixed;
   top: var(--navbar-height);
   left: 0;
   right: 0;
   background: var(--bg-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
   padding: var(--spacing-md);
   z-index: calc(var(--z-sticky) - 1);
   flex-direction: column;
   gap: 4px;
   transform-origin: top center;
-  transition: opacity 400ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), visibility 400ms;
+  transition:
+    opacity 350ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 350ms cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0ms 350ms;
 }
 
 .navbar-mobile.open {
   visibility: visible;
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0) scaleY(1);
+  pointer-events: auto;
+  transition:
+    opacity 350ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 350ms cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0ms 0ms;
 }
 
 .navbar-mobile .nav-link {
@@ -529,7 +539,25 @@ p {
   border-radius: var(--radius-md);
   width: 100%;
   font-size: 0.95rem;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: background 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.navbar-mobile.open .nav-link {
+  animation: slideInLink 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.navbar-mobile.open .nav-link:nth-child(1) { animation-delay: 40ms; }
+.navbar-mobile.open .nav-link:nth-child(2) { animation-delay: 70ms; }
+.navbar-mobile.open .nav-link:nth-child(3) { animation-delay: 100ms; }
+.navbar-mobile.open .nav-link:nth-child(4) { animation-delay: 130ms; }
+.navbar-mobile.open .nav-link:nth-child(5) { animation-delay: 160ms; }
+.navbar-mobile.open .nav-link:nth-child(6) { animation-delay: 190ms; }
+.navbar-mobile.open .nav-link:nth-child(7) { animation-delay: 220ms; }
+.navbar-mobile.open .nav-link:nth-child(8) { animation-delay: 250ms; }
+
+@keyframes slideInLink {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 /* ── HERO SLIDER ── */
@@ -2495,14 +2523,58 @@ p {
 /* ── ANIMATIONS ── */
 .fade-in {
   opacity: 0;
-  transform: translateY(30px) scale(0.98);
-  transition: opacity 800ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 800ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translateY(40px);
+  transition:
+    opacity 700ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
 }
 
 .fade-in.visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
+}
+
+/* Slide dari kiri untuk item tertentu */
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition:
+    opacity 700ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+.fade-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide dari kanan */
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition:
+    opacity 700ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+.fade-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale-in */
+.fade-in-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 700ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+.fade-in-scale.visible {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .fade-in-delay-1 { transition-delay: 100ms; }

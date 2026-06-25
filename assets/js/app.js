@@ -92,17 +92,25 @@ export function initNavbar() {
 
 // ── SCROLL ANIMATIONS ──────────────────────────────────────
 export function initScrollAnimations() {
-  const elements = document.querySelectorAll('.fade-in');
+  const selectors = '.fade-in, .fade-in-left, .fade-in-right, .fade-in-scale';
+  const elements = document.querySelectorAll(selectors);
   if (!elements.length) return;
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+        // Tambah sedikit delay agar animasi terasa lebih natural
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, delay);
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -40px 0px'
+  });
 
   elements.forEach(el => observer.observe(el));
 }
