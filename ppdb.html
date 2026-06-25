@@ -8,7 +8,7 @@
     content="Informasi PPDB (Penerimaan Peserta Didik Baru) LPI Nurul Huda Kapedi — Jadwal, Persyaratan, dan Biaya." />
   <title>PPDB — LPI Nurul Huda Kapedi</title>
   <link rel="icon" type="image/png" href="assets/images/logo.png" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css?v=21" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" />
 </head>
@@ -79,13 +79,13 @@
           </a>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;" class="ppdb-grid">
+        <div class="ppdb-info-grid">
           <!-- Jadwal -->
-          <div class="fade-in">
-            <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
-              <span
-                style="width:36px;height:36px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;flex-shrink:0;"><i
-                  class="fas fa-calendar"></i></span>
+          <div class="ppdb-info-card fade-in">
+            <h3 class="ppdb-info-heading">
+              <span class="ppdb-info-icon ppdb-icon-primary">
+                <i class="fas fa-calendar-alt"></i>
+              </span>
               Jadwal Pendaftaran
             </h3>
             <div class="timeline" id="ppdbSchedule">
@@ -96,14 +96,14 @@
           </div>
 
           <!-- Persyaratan -->
-          <div class="fade-in fade-in-delay-1">
-            <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
-              <span
-                style="width:36px;height:36px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.9rem;flex-shrink:0;"><i
-                  class="fas fa-list-check"></i></span>
+          <div class="ppdb-info-card fade-in fade-in-delay-1">
+            <h3 class="ppdb-info-heading">
+              <span class="ppdb-info-icon ppdb-icon-accent">
+                <i class="fas fa-list-check"></i>
+              </span>
               Persyaratan
             </h3>
-            <div id="ppdbRequirements" style="color:var(--text-secondary);line-height:1.85;">
+            <div id="ppdbRequirements" class="ppdb-req-content">
               <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>
               <div class="skeleton" style="height:16px;margin-bottom:10px;width:80%;"></div>
               <div class="skeleton" style="height:16px;margin-bottom:10px;"></div>

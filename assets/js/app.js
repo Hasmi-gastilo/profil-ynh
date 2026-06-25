@@ -111,13 +111,14 @@ export function initScrollAnimations() {
 export function animateCounter(el, target, duration = 2000) {
   const start = performance.now();
   const startVal = 0;
+  const suffix = el.dataset.suffix || '';
 
   function update(time) {
     const elapsed = time - start;
     const progress = Math.min(elapsed / duration, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
     const current = Math.round(startVal + (target - startVal) * eased);
-    el.textContent = current.toLocaleString('id-ID');
+    el.textContent = current.toLocaleString('id-ID') + (progress >= 1 ? suffix : '');
     if (progress < 1) requestAnimationFrame(update);
   }
 

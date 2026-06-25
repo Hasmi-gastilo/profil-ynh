@@ -2780,6 +2780,155 @@ p {
   .contact-grid { grid-template-columns: 1fr; }
 }
 
+/* ── PPDB INFO GRID (Jadwal & Persyaratan) ── */
+.ppdb-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.ppdb-info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base);
+}
+
+.ppdb-info-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.ppdb-info-heading {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+}
+
+.ppdb-info-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.ppdb-icon-primary { background: var(--primary); }
+.ppdb-icon-accent  { background: var(--accent); }
+
+.ppdb-req-content {
+  color: var(--text-secondary);
+  line-height: 1.9;
+  font-size: 0.92rem;
+}
+
+.ppdb-req-content strong,
+.ppdb-req-content b {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* ── PERSYARATAN GRID CARDS ── */
+.req-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.req-card {
+  background: var(--bg-body);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.req-card:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--primary-200);
+}
+
+.req-card-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 14px;
+  border-bottom: 2px dashed var(--border-light);
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.req-card-body {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.req-card-body p {
+  margin-bottom: 8px;
+}
+
+.req-card-body ul {
+  padding-left: 20px;
+  margin-bottom: 8px;
+  list-style-type: disc;
+}
+
+.req-card-body ol {
+  padding-left: 20px;
+  margin-bottom: 8px;
+  list-style-type: decimal;
+}
+
+.req-card-body li {
+  margin-bottom: 4px;
+}
+
+@media (max-width: 640px) {
+  .req-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ppdb-req-content ul,
+.ppdb-req-content ol {
+  padding-left: 18px;
+  margin: 6px 0;
+}
+
+.ppdb-req-content li {
+  margin-bottom: 4px;
+}
+
+/* Mobile: jadwal & persyaratan stack ke 1 kolom */
+@media (max-width: 768px) {
+  .ppdb-info-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .ppdb-info-card {
+    padding: 20px 16px;
+  }
+
+  .ppdb-info-heading {
+    font-size: 0.97rem;
+  }
+}
+
 /* ── PRINCIPAL CARD ── */
 
 
