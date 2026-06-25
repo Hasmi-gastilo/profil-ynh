@@ -20,16 +20,17 @@ async function load() {
     }
     tbody.innerHTML = items.map(p => `
       <tr>
-        <td>${p.photo
+        <td>
+          ${p.photo
           ? `<img class="table-img" src="${p.photo}" alt="${p.studentName}"
                style="border-radius:50%;object-fit:cover;object-position:${positionToCSS(p.photoPos)};"
                title="Zoom: ${p.photoPos?.scale ? Math.round(p.photoPos.scale*100)+'%' : '100%'}" />`
-          : `<div class="table-img" style="display:flex;align-items:center;justify-content:center;background:var(--admin-bg);font-size:1.2rem;border-radius:50%;">🏆</div>`}
+          : `<div class="table-img" style="display:flex;align-items:center;justify-content:center;background:var(--admin-bg);font-size:1.2rem;border-radius:50%;"><i class="fas fa-trophy" style="color:var(--admin-accent);"></i></div>`}
         </td>
-        <td><div class="table-title">${p.title || '-'}</div></td>
-        <td style="font-size:0.85rem;">${p.studentName || '-'}</td>
-        <td><span class="badge badge-primary">${p.level || '-'}</span></td>
-        <td style="font-size:0.85rem;">${p.year || '-'}</td>
+        <td><div class="table-title" style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.title || '-'}</div></td>
+        <td style="font-size:0.82rem;max-width:140px;"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.studentName || '-'}</div></td>
+        <td><span class="badge badge-primary" style="white-space:nowrap;">${p.level || '-'}</span></td>
+        <td class="hide-on-mobile" style="font-size:0.82rem;white-space:nowrap;">${p.year || '-'}</td>
         <td><div class="action-btns">
           <button class="action-btn edit" onclick="editItem('${p.id}')" title="Edit"><i class="fas fa-edit"></i></button>
           <button class="action-btn delete" onclick="delItem('${p.id}')" title="Hapus"><i class="fas fa-trash"></i></button>

@@ -57,25 +57,31 @@ function renderBanners() {
     return;
   }
   list.innerHTML = banners.map(b => `
-    <div style="display:flex;gap:16px;align-items:center;padding:16px;background:var(--admin-bg);border-radius:12px;border:1px solid var(--admin-border);">
-      <div style="width:120px;height:68px;border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--admin-primary);">
-        ${b.imageUrl ? `<img src="${b.imageUrl}" alt="${b.title}" style="width:100%;height:100%;object-fit:cover;" loading="lazy"/>` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;"><i class="fas fa-image"></i></div>`}
+    <div class="banner-card-item">
+      <div class="banner-card-thumb">
+        ${b.imageUrl
+          ? `<img src="${b.imageUrl}" alt="${b.title}" loading="lazy"/>`
+          : `<div class="banner-card-thumb-placeholder"><i class="fas fa-image"></i></div>`
+        }
+        <div class="banner-card-order">Urutan ${b.order || 1}</div>
       </div>
-      <div style="flex:1;min-width:0;">
-        <div style="font-weight:700;font-size:0.9rem;color:var(--admin-text);margin-bottom:4px;">${b.title || '-'}</div>
-        <div style="font-size:0.78rem;color:var(--admin-text-muted);margin-bottom:6px;">${b.subtitle || ''}</div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <span style="font-size:0.7rem;background:var(--admin-bg);border:1px solid var(--admin-border);padding:2px 8px;border-radius:999px;">Urutan: ${b.order || 1}</span>
-          <span class="status-badge ${b.active !== false ? 'status-active' : 'status-inactive'}">${b.active !== false ? 'Aktif' : 'Nonaktif'}</span>
+      <div class="banner-card-body">
+        <div class="banner-card-info">
+          <div class="banner-card-title">${b.title || '-'}</div>
+          ${b.subtitle ? `<div class="banner-card-subtitle">${b.subtitle}</div>` : ''}
+          <span class="status-badge ${b.active !== false ? 'status-active' : 'status-inactive'}" style="margin-top:8px;display:inline-flex;">
+            ${b.active !== false ? '● Aktif' : '● Nonaktif'}
+          </span>
         </div>
-      </div>
-      <div class="action-btns">
-        <button class="action-btn edit" onclick="editBanner('${b.id}')" title="Edit"><i class="fas fa-edit"></i></button>
-        <button class="action-btn delete" onclick="deleteBanner('${b.id}')" title="Hapus"><i class="fas fa-trash"></i></button>
+        <div class="banner-card-actions">
+          <button class="action-btn edit" onclick="editBanner('${b.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete" onclick="deleteBanner('${b.id}')" title="Hapus"><i class="fas fa-trash"></i></button>
+        </div>
       </div>
     </div>
   `).join('');
 }
+
 
 function openModal(bannerId = null) {
   const banner = bannerId ? banners.find(b => b.id === bannerId) : null;

@@ -3,6 +3,7 @@ import { db } from './firebase-init.js';
 import { collection, getDocs, getDoc, query, orderBy, limit, where, doc, startAfter }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { initApp, formatDate, truncate } from './app.js';
+import { positionToCSS } from './admin/image-position-editor.js';
 
 const PAGE_SIZE = 9;
 let lastDoc = null;
@@ -125,6 +126,7 @@ function renderFiltered() {
     // Selang-seling warna header (hijau gelap/primer atau orange/accent)
     const isAccent = i % 2 !== 0 ? 'accent' : '';
     const isNew = isRecent(a.publishDate) ? `<div class="news-badge-new">BARU</div>` : '';
+    const objPos = positionToCSS(a.photoPos);
     
     return `
     <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-page-card" style="text-decoration:none;">
@@ -133,7 +135,7 @@ function renderFiltered() {
       </div>
       <div class="news-page-card-img-wrap">
         ${isNew}
-        <img class="news-page-card-img" src="${a.thumbnail || 'https://via.placeholder.com/400x225?text=No+Image'}" alt="${a.title}" loading="lazy" />
+        <img class="news-page-card-img" src="${a.thumbnail || 'https://via.placeholder.com/400x225?text=No+Image'}" alt="${a.title}" loading="lazy" style="object-position:${objPos};" />
       </div>
       <div class="news-page-card-body">
         <h3 class="news-page-card-title">${a.title}</h3>
@@ -161,15 +163,18 @@ async function loadLatestNewsSidebar() {
       return;
     }
 
-    list.innerHTML = docs.map(a => `
+    list.innerHTML = docs.map(a => {
+      const objPos = positionToCSS(a.photoPos);
+      return `
       <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-widget-item">
-        <img class="news-widget-thumb" src="${a.thumbnail || 'https://via.placeholder.com/64x52?text=NH'}" alt="${a.title}" loading="lazy" />
+        <img class="news-widget-thumb" src="${a.thumbnail || 'https://via.placeholder.com/64x52?text=NH'}" alt="${a.title}" loading="lazy" style="object-position:${objPos};" />
         <div class="news-widget-item-body">
           <div class="news-widget-item-title">${a.title}</div>
           <div class="news-widget-item-date"><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>${formatDate(a.publishDate)}</div>
         </div>
       </a>
-    `).join('');
+    `;
+    }).join('');
   } catch(err) {
     list.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;">Gagal memuat berita terkini.</div>';
   }
@@ -215,9 +220,10 @@ function renderDetail(a) {
   // Hero image & Title overlay
   const hero = document.getElementById('articleHero');
   if (hero) {
+    const heroPos = positionToCSS(a.photoPos);
     hero.innerHTML = `
       <div class="article-hero-wrap">
-        <img src="${a.thumbnail || 'https://via.placeholder.com/800x480?text=No+Image'}" alt="${a.title}" class="article-hero-img" />
+        <img src="${a.thumbnail || 'https://via.placeholder.com/800x480?text=No+Image'}" alt="${a.title}" class="article-hero-img" style="object-position:${heroPos};" />
         <div class="article-hero-overlay">
           <span class="news-widget-tag" style="background:rgba(255,255,255,0.2);color:#fff;border-color:rgba(255,255,255,0.4);margin-bottom:12px;display:inline-flex;">
             <i class="fas fa-tag" style="margin-right:6px;"></i> ${a.category || 'Berita'}
@@ -282,15 +288,18 @@ async function loadRelated(category, excludeId) {
       .filter(d => d.status === 'published' && d.category === category && d.id !== excludeId)
       .slice(0, 3);
     if (!items.length) { grid.parentElement.parentElement.style.display = 'none'; return; }
-    grid.innerHTML = items.map(a => `
+    grid.innerHTML = items.map(a => {
+      const objPos = positionToCSS(a.photoPos);
+      return `
       <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-widget-item">
-        <img class="news-widget-thumb" src="${a.thumbnail || 'https://via.placeholder.com/64x52?text=NH'}" alt="${a.title}" loading="lazy" />
+        <img class="news-widget-thumb" src="${a.thumbnail || 'https://via.placeholder.com/64x52?text=NH'}" alt="${a.title}" loading="lazy" style="object-position:${objPos};" />
         <div class="news-widget-item-body">
           <div class="news-widget-item-title">${a.title}</div>
           <div class="news-widget-item-date"><i class="fas fa-calendar-alt" style="margin-right:4px;"></i>${formatDate(a.publishDate)}</div>
         </div>
       </a>
-    `).join('');
+    `;
+    }).join('');
   } catch (err) { grid.parentElement.parentElement.style.display = 'none'; }
 }
 

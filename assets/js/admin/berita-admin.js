@@ -3,6 +3,7 @@ import { db } from '../firebase-init.js';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc, query, orderBy, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { initAdmin, renderSidebar, renderTopbar, showToast, confirmDelete, uploadImageWithProgress, slugify, formatDate } from './admin-app.js';
+import { createImagePositionEditor, positionToCSS } from './image-position-editor.js';
 
 // ── LIST PAGE ──────────────────────────────────────────────
 async function initListPage() {
@@ -37,7 +38,7 @@ function renderTable(items) {
   }
   tbody.innerHTML = items.map(a => `
     <tr>
-      <td><img class="table-img" src="${a.thumbnail || 'https://via.placeholder.com/48?text=NH'}" alt="${a.title}" loading="lazy"/></td>
+      <td><img class="table-img" src="${a.thumbnail || 'https://via.placeholder.com/48?text=NH'}" alt="${a.title}" loading="lazy" style="object-fit:cover;object-position:${positionToCSS(a.photoPos)};"/></td>
       <td><div class="table-title">${a.title || '-'}</div></td>
       <td><span class="badge badge-primary">${a.category || '-'}</span></td>
       <td style="font-size:0.82rem;">${a.author || '-'}</td>
@@ -74,6 +75,7 @@ window.deleteBerita = async (id) => {
 
 // ── FORM PAGE ──────────────────────────────────────────────
 let quill = null;
+let thumbEditor = null;
 
 async function initFormPage() {
   document.getElementById('adminSidebarSlot').innerHTML = renderSidebar('berita');
@@ -113,10 +115,36 @@ async function initFormPage() {
     document.getElementById('editSlug').textContent = input.readOnly ? 'Edit' : 'Kunci';
   });
 
-  // Thumbnail
-  document.getElementById('thumbnailFile').addEventListener('change', e => {
+  // Thumbnail Position Editor
+  const editorContainer = document.getElementById('photoEditorContainer');
+  if (editorContainer) {
+    thumbEditor = createImagePositionEditor(editorContainer, {
+      aspectRatio: '16/9',
+      shape: 'square',
+    });
+  }
+
+  // Upload handler
+  const fInput = document.getElementById('thumbnailFile');
+  const uploadWrap = document.getElementById('uploadAreaWrap');
+  const changeBtn = document.getElementById('changeThumbBtn');
+  const hint = document.getElementById('ipeHint');
+
+  document.getElementById('thumbnailArea').onclick = () => fInput.click();
+  changeBtn.onclick = () => fInput.click();
+
+  fInput.addEventListener('change', e => {
     const f = e.target.files[0];
-    if (f) { const r = new FileReader(); r.onload = ev => { const p = document.getElementById('thumbnailPreview'); p.src = ev.target.result; p.style.display = ''; }; r.readAsDataURL(f); }
+    if (f) {
+      const r = new FileReader();
+      r.onload = ev => {
+        uploadWrap.style.display = 'none';
+        changeBtn.style.display = 'inline-block';
+        hint.style.display = 'block';
+        if (thumbEditor) thumbEditor.loadImage(ev.target.result);
+      };
+      r.readAsDataURL(f);
+    }
   });
 
   // Buttons
@@ -151,8 +179,10 @@ async function loadArticleForEdit(id) {
       document.getElementById('beritaTanggal').value = d.publishDate.toDate().toISOString().split('T')[0];
     }
     if (d.thumbnail) {
-      const p = document.getElementById('thumbnailPreview');
-      p.src = d.thumbnail; p.style.display = '';
+      document.getElementById('uploadAreaWrap').style.display = 'none';
+      document.getElementById('changeThumbBtn').style.display = 'inline-block';
+      document.getElementById('ipeHint').style.display = 'block';
+      if (thumbEditor) thumbEditor.loadImage(d.thumbnail, d.photoPos || null);
     }
     if (quill && d.content) quill.root.innerHTML = d.content;
 
@@ -193,6 +223,7 @@ async function saveBerita(status) {
       tags,
       status,
       thumbnail,
+      photoPos: thumbEditor ? thumbEditor.getPosition() : null,
       publishDate: pubDate ? new Date(pubDate) : new Date(),
       updatedAt: serverTimestamp(),
     };

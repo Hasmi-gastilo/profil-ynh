@@ -8,6 +8,7 @@ import {
   collection, getDocs, query, orderBy, limit, where
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { initApp, formatDate, truncate } from './app.js';
+import { positionToCSS } from './admin/image-position-editor.js';
 
 
 // ── HERO SLIDER ────────────────────────────────────────────
@@ -221,12 +222,15 @@ async function loadNews() {
 
     const mainHTML = `
       <div class="news-article-list">
-        ${mainArticles.map((a, i) => `
+        ${mainArticles.map((a, i) => {
+          const objPos = positionToCSS(a.photoPos);
+          return `
           <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-article-item">
             <span class="news-article-num">${numLabels[i]}</span>
             <img class="news-article-thumb"
                  src="${a.thumbnail || PLACEHOLDER}"
                  alt="${a.title}" loading="lazy"
+                 style="object-position:${objPos};"
                  onerror="this.src='${PLACEHOLDER}'" />
             <div class="news-article-body">
               <span class="news-article-category">${a.category || 'Berita Umum'}</span>
@@ -238,7 +242,7 @@ async function loadNews() {
               </span>
             </div>
           </a>
-        `).join('')}
+        `; }).join('')}
       </div>
     `;
 
@@ -249,11 +253,14 @@ async function loadNews() {
           <div class="news-sidebar-title">Berita Terkini</div>
         </div>
         <div class="news-sidebar-list">
-          ${sidebarArticles.map(a => `
+          ${sidebarArticles.map(a => {
+            const objPos = positionToCSS(a.photoPos);
+            return `
             <a href="berita-detail.html?slug=${a.slug || a.id}" class="news-sidebar-item">
               <img class="news-sidebar-thumb"
                    src="${a.thumbnail || PLACEHOLDER_SB}"
                    alt="${a.title}" loading="lazy"
+                   style="object-position:${objPos};"
                    onerror="this.src='${PLACEHOLDER_SB}'" />
               <div class="news-sidebar-body">
                 <div class="news-sidebar-item-title">${a.title}</div>
@@ -262,7 +269,7 @@ async function loadNews() {
                 </div>
               </div>
             </a>
-          `).join('')}
+          `; }).join('')}
         </div>
         <div class="news-sidebar-footer">
           <a href="berita.html">Lihat Semua Berita <i class="fas fa-arrow-right"></i></a>

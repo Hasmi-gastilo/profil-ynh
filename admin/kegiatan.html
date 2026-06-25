@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Manajemen Kegiatan — Admin LPI Nurul Huda</title>
   <link rel="icon" type="image/png" href="../assets/images/logo.png" />
-  <link rel="stylesheet" href="../assets/css/admin.css" />
+  <link rel="stylesheet" href="../assets/css/admin.css?v=10" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" />
 </head>
@@ -23,21 +23,24 @@
         </div>
         <button class="btn-admin btn-admin-primary" id="btnAdd"><i class="fas fa-plus"></i> Tambah Kegiatan</button>
       </div>
+
       <div class="admin-card">
-        <div class="admin-table-wrap">
+        <div class="admin-table-wrap scrollable-table-wrap">
           <table class="admin-table">
             <thead>
               <tr>
-                <th>Foto</th>
+                <th style="width:64px;">Foto</th>
                 <th>Judul Kegiatan</th>
                 <th>Tanggal</th>
                 <th>Status</th>
-                <th>Aksi</th>
+                <th style="width:90px;">Aksi</th>
               </tr>
             </thead>
             <tbody id="dataTable">
               <tr>
-                <td colspan="5" style="text-align:center;padding:40px;color:var(--admin-text-muted);">Memuat...</td>
+                <td colspan="5" style="text-align:center;padding:40px;color:var(--admin-text-muted);">
+                  <i class="fas fa-spinner fa-spin" style="font-size:1.5rem;"></i>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -45,53 +48,107 @@
       </div>
     </div>
   </div>
+
+  <!-- ══ MODAL TAMBAH / EDIT KEGIATAN ══ -->
   <div class="admin-modal-overlay" id="dataModal">
-    <div class="admin-modal">
+    <div class="admin-modal admin-modal-lg" style="max-width:680px;">
       <div class="admin-modal-header">
-        <div class="admin-modal-title" id="modalTitle">Tambah Kegiatan</div>
+        <div class="admin-modal-title" id="modalTitle">
+          <i class="fas fa-calendar-alt" style="margin-right:8px;color:var(--admin-primary);"></i>
+          Tambah Kegiatan
+        </div>
         <button class="admin-modal-close" id="closeModal"><i class="fas fa-times"></i></button>
       </div>
+
       <div class="admin-modal-body">
         <form id="dataForm">
           <input type="hidden" id="itemId" />
-          <div class="form-group"><label class="form-label">Judul Kegiatan <span class="required">*</span></label><input
-              type="text" id="fTitle" class="form-control" required /></div>
-          <div class="form-group"><label class="form-label">Deskripsi</label><textarea id="fDesc" class="form-control"
-              rows="4"></textarea></div>
+
+          <!-- Judul -->
+          <div class="form-group">
+            <label class="form-label">Judul Kegiatan <span class="required">*</span></label>
+            <input type="text" id="fTitle" class="form-control" placeholder="Mis: Peringatan Maulid Nabi 2024" required />
+          </div>
+
+          <!-- Tanggal + Status -->
           <div class="form-grid-2">
-            <div class="form-group"><label class="form-label">Tanggal</label><input type="date" id="fDate"
-                class="form-control" /></div>
-            <div class="form-group"><label class="form-label">Status</label>
+            <div class="form-group">
+              <label class="form-label"><i class="fas fa-calendar" style="color:var(--admin-primary);margin-right:5px;"></i>Tanggal</label>
+              <input type="date" id="fDate" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label class="form-label"><i class="fas fa-flag" style="color:var(--admin-primary);margin-right:5px;"></i>Status</label>
               <select id="fStatus" class="form-control">
-                <option value="upcoming">Akan Datang</option>
-                <option value="ongoing">Berlangsung</option>
-                <option value="done">Selesai</option>
+                <option value="upcoming">🕐 Akan Datang</option>
+                <option value="ongoing">🟢 Berlangsung</option>
+                <option value="done">✅ Selesai</option>
               </select>
             </div>
           </div>
+
+          <!-- Deskripsi -->
           <div class="form-group">
-            <label class="form-label">Foto</label>
-            <div class="upload-area"><input type="file" id="fPhoto" accept="image/*" />
-              <div class="upload-icon"><i class="fas fa-image"></i></div>
-              <div class="upload-text">Klik untuk upload foto kegiatan</div>
+            <label class="form-label">Deskripsi</label>
+            <textarea id="fDesc" class="form-control" rows="3"
+              placeholder="Deskripsi singkat tentang kegiatan..."></textarea>
+          </div>
+
+            <!-- FOTO SECTION -->
+          <div class="form-group" style="margin-bottom:0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <label class="form-label" style="margin-bottom:0;">
+                <i class="fas fa-image" style="color:var(--admin-primary);margin-right:5px;"></i> Foto Kegiatan
+              </label>
+              <button type="button" id="changePhotoBtn" class="btn-admin btn-admin-outline" style="display:none;font-size:0.75rem;padding:4px 10px;">
+                <i class="fas fa-pencil-alt"></i> Ganti Foto
+              </button>
             </div>
-            <div class="progress-bar-wrap" id="photoProgress" style="display:none;">
+
+            <!-- Upload area -->
+            <div id="uploadAreaWrap">
+              <div class="upload-area" id="uploadAreaKegiatan" style="cursor:pointer;">
+                <input type="file" id="fPhoto" accept="image/*" style="display:none;" />
+                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                <div class="upload-text">Klik untuk upload foto kegiatan</div>
+                <div class="upload-hint">JPG, PNG, WebP — Maks 10MB · Rekomendasi: 1200×675px (16:9)</div>
+              </div>
+            </div>
+
+            <!-- Progress upload -->
+            <div class="progress-bar-wrap" id="photoProgress" style="display:none;margin-top:10px;">
               <div class="progress-bar" id="photoProgressBar"></div>
             </div>
-            <!-- Image Position Editor -->
-            <div id="photoEditorContainer"></div>
+            <div id="photoProgressText" style="display:none;font-size:0.75rem;color:var(--admin-text-muted);margin-top:4px;text-align:center;"></div>
+
+            <!-- ── IMAGE POSITION EDITOR ── -->
+            <div id="photoEditorContainer" style="margin-top:12px;"></div>
             <input type="hidden" id="fPhotoUrl" />
+
+            <!-- Hint setelah editor muncul -->
+            <div id="ipeHint"
+              style="display:none;margin-top:8px;padding:10px 14px;background:rgba(27,79,138,0.06);border-radius:8px;border:1px solid rgba(27,79,138,0.15);">
+              <div style="font-size:0.78rem;color:var(--admin-primary);font-weight:600;">
+                <i class="fas fa-info-circle" style="margin-right:5px;"></i>Tips editor:
+              </div>
+              <ul style="font-size:0.75rem;color:var(--admin-text-muted);margin:6px 0 0 16px;line-height:1.5;">
+                <li><strong>Geser</strong> foto untuk atur posisi, <strong>Scroll / cubit</strong> untuk zoom</li>
+              </ul>
+            </div>
           </div>
         </form>
       </div>
+
       <div class="admin-modal-footer">
         <button class="btn-admin btn-admin-outline" id="cancelModal">Batal</button>
-        <button class="btn-admin btn-admin-primary" id="saveItem"><i class="fas fa-save"></i> Simpan</button>
+        <button class="btn-admin btn-admin-primary" id="saveItem">
+          <i class="fas fa-save"></i> Simpan Kegiatan
+        </button>
       </div>
     </div>
   </div>
+
   <div id="adminToastContainer" class="admin-toast-container"></div>
-  <script type="module" src="../assets/js/admin/kegiatan-admin.js?v=2"></script>
+  <script type="module" src="../assets/js/admin/kegiatan-admin.js?v=3"></script>
 </body>
 
 </html>

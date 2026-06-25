@@ -41,7 +41,7 @@ async function load() {
 
 function open(id = null) {
   const item = id ? items.find(i => i.id === id) : null;
-  document.getElementById('modalTitle').textContent = item ? 'Edit Kegiatan' : 'Tambah Kegiatan';
+  document.getElementById('modalTitle').innerHTML = item ? '<i class="fas fa-edit" style="margin-right:8px;color:var(--admin-primary);"></i> Edit Kegiatan' : '<i class="fas fa-calendar-alt" style="margin-right:8px;color:var(--admin-primary);"></i> Tambah Kegiatan';
   document.getElementById('itemId').value = id || '';
   document.getElementById('fTitle').value = item?.title || '';
   document.getElementById('fDesc').value = item?.description || '';
@@ -50,12 +50,22 @@ function open(id = null) {
   document.getElementById('fPhotoUrl').value = item?.photo || '';
   document.getElementById('fPhoto').value = '';
 
+  const uploadWrap = document.getElementById('uploadAreaWrap');
+  const changeBtn = document.getElementById('changePhotoBtn');
+  const hint = document.getElementById('ipeHint');
+
   // Load image ke editor
   if (photoEditor) {
     if (item?.photo) {
       photoEditor.loadImage(item.photo, item.photoPos || null);
+      uploadWrap.style.display = 'none';
+      changeBtn.style.display = 'block';
+      hint.style.display = 'block';
     } else {
       photoEditor.hide();
+      uploadWrap.style.display = 'block';
+      changeBtn.style.display = 'none';
+      hint.style.display = 'none';
     }
   }
 
@@ -129,10 +139,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!f) return;
     const reader = new FileReader();
     reader.onload = ev => {
+      document.getElementById('uploadAreaWrap').style.display = 'none';
+      document.getElementById('changePhotoBtn').style.display = 'block';
+      document.getElementById('ipeHint').style.display = 'block';
       if (photoEditor) photoEditor.loadImage(ev.target.result);
     };
     reader.readAsDataURL(f);
   };
+
+  // Upload trigger
+  document.getElementById('uploadAreaKegiatan').onclick = () => document.getElementById('fPhoto').click();
+  document.getElementById('changePhotoBtn').onclick = () => document.getElementById('fPhoto').click();
 
   await load();
 });
