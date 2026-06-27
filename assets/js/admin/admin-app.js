@@ -312,70 +312,73 @@ export async function initAdmin(pageName = '') {
 }
 
 
-// ── IMAGE UPLOAD — ImgBB (Gratis, tanpa Firebase Storage) ──
-// ImgBB API Key — daftar gratis di https://api.imgbb.com/
-// Ganti nilai di bawah ini dengan API key Anda setelah daftar
-const IMGBB_API_KEY = 'e51d9af75f1beb8c2d2581d964e9bdd9';
+// ── IMAGE UPLOAD — Cloudinary (Gratis, tanpa Firebase Storage) ──
+// Cloudinary: gratis 25GB storage, gambar permanen, tidak dihapus sembarangan
+// Cloud Name & Upload Preset diambil dari dashboard Cloudinary
+const CLOUDINARY_CLOUD_NAME  = 'dqtag7nlc';
+const CLOUDINARY_UPLOAD_PRESET = 'profil_ynh'; // Unsigned upload preset
 
 /**
- * Upload gambar ke ImgBB
+ * Upload gambar ke Cloudinary dengan progress callback
  * @param {File} file - File gambar
- * @param {string} folder - Tidak dipakai (untuk kompatibilitas)
+ * @param {string} folder - Subfolder di Cloudinary (opsional)
  * @param {Function|null} progressCallback - Callback progress (0-100)
- * @returns {Promise<string>} URL gambar yang di-upload
+ * @returns {Promise<string>} URL gambar yang di-upload (secure_url)
  */
 export async function uploadImageWithProgress(file, folder = 'general', progressCallback = null) {
   // Validasi tipe file
   if (!file.type.startsWith('image/')) {
     throw new Error('File harus berupa gambar (JPG, PNG, WEBP, GIF)');
   }
-  // Validasi ukuran file (maks 32MB untuk ImgBB)
-  if (file.size > 32 * 1024 * 1024) {
-    throw new Error('Ukuran gambar maksimal 32MB');
+  // Validasi ukuran file (maks 10MB — batas Cloudinary free)
+  if (file.size > 10 * 1024 * 1024) {
+    throw new Error('Ukuran gambar maksimal 10MB');
   }
 
-  if (progressCallback) progressCallback(10);
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    formData.append('folder', `profil-ynh/${folder}`);
+    // Beri nama unik agar tidak konflik
+    formData.append('public_id', `${folder}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_').replace(/\.[^.]+$/, '')}`);
 
-  // Konversi ke base64
-  const base64 = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
+    const xhr = new XMLHttpRequest();
+    const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+
+    // Track upload progress
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable && progressCallback) {
+        const pct = Math.round((e.loaded / e.total) * 100);
+        progressCallback(pct);
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const result = JSON.parse(xhr.responseText);
+        if (result.secure_url) {
+          if (progressCallback) progressCallback(100);
+          resolve(result.secure_url);
+        } else {
+          reject(new Error('Cloudinary: URL gambar tidak ditemukan dalam respons'));
+        }
+      } else {
+        let errMsg = `Upload gagal: HTTP ${xhr.status}`;
+        try {
+          const errData = JSON.parse(xhr.responseText);
+          errMsg = errData?.error?.message || errMsg;
+        } catch (_) {}
+        reject(new Error(errMsg));
+      }
+    };
+
+    xhr.onerror = () => reject(new Error('Upload gagal: koneksi error'));
+    xhr.ontimeout = () => reject(new Error('Upload gagal: timeout'));
+
+    xhr.open('POST', url, true);
+    xhr.send(formData);
   });
-
-  if (progressCallback) progressCallback(40);
-
-  // Upload ke ImgBB
-  const formData = new FormData();
-  formData.append('image', base64);
-  formData.append('name', `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`);
-
-  const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-    method: 'POST',
-    body: formData,
-  });
-
-  if (progressCallback) progressCallback(90);
-
-  if (!response.ok) {
-    throw new Error(`Upload gagal: HTTP ${response.status}`);
-  }
-
-  const result = await response.json();
-
-  if (!result.success) {
-    // Jika API key belum diisi, berikan pesan yang jelas
-    if (IMGBB_API_KEY === 'GANTI_DENGAN_IMGBB_API_KEY') {
-      throw new Error('ImgBB API Key belum diisi! Buka file admin-app.js dan isi IMGBB_API_KEY dengan key dari https://api.imgbb.com/');
-    }
-    throw new Error(`ImgBB error: ${result.error?.message || 'Upload gagal'}`);
-  }
-
-  if (progressCallback) progressCallback(100);
-
-  // Kembalikan URL display (permanent)
-  return result.data.display_url || result.data.url;
 }
 
 /**
@@ -386,13 +389,15 @@ export async function uploadImage(file, folder = 'general') {
 }
 
 /**
- * Hapus gambar dari ImgBB — ImgBB gratis tidak support delete via API
- * Fungsi ini hanya no-op untuk kompatibilitas
+ * Hapus gambar dari Cloudinary
+ * Catatan: Cloudinary free plan tidak mendukung delete via unsigned request.
+ * File tetap tersimpan permanen di Cloudinary — tidak akan hilang sendiri.
  */
 export async function deleteImageFromStorage(url) {
-  // ImgBB free plan tidak support delete via API
-  // Gambar akan tetap ada di ImgBB — tidak masalah untuk website sekolah
-  console.info('deleteImageFromStorage: ImgBB tidak support delete via API, diabaikan.');
+  // Cloudinary free plan tidak support delete via client-side API tanpa signature
+  // Gambar bisa dihapus manual melalui dashboard https://console.cloudinary.com
+  // Hal ini tidak berpengaruh pada tampilan website — data Firestore tetap bersih
+  console.info('deleteImageFromStorage: hapus manual via Cloudinary dashboard jika diperlukan.', url);
 }
 
 // ── SLUGIFY ────────────────────────────────────────────────
