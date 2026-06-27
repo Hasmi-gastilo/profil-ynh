@@ -12,7 +12,7 @@ export function createImagePositionEditor(container, options = {}) {
   const {
     aspectRatio = '1/1',    // '1/1' untuk bulat/persegi, '16/9' untuk landscape
     shape = 'square',       // 'circle' untuk bulat, 'square' untuk kotak
-    minScale = 0.5,
+    minScale = 0.1,
     maxScale = 4,
   } = options;
 
