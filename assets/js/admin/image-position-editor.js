@@ -33,7 +33,10 @@ export function createImagePositionEditor(container, options = {}) {
         <button type="button" class="ipe-btn" id="ipeZoomOut" title="Zoom out">
           <i class="fas fa-search-minus"></i>
         </button>
-        <div class="ipe-zoom-label" id="ipeZoomLabel">100%</div>
+        <div class="ipe-zoom-input-wrap">
+          <input type="number" class="ipe-zoom-input" id="ipeZoomInput" min="10" max="400" value="100" title="Ketik persentase zoom" />
+          <span>%</span>
+        </div>
         <button type="button" class="ipe-btn" id="ipeZoomIn" title="Zoom in">
           <i class="fas fa-search-plus"></i>
         </button>
@@ -47,7 +50,7 @@ export function createImagePositionEditor(container, options = {}) {
   const wrapper   = container.querySelector('#ipeWrapper');
   const viewport  = container.querySelector('#ipeViewport');
   const img       = container.querySelector('#ipeImg');
-  const zoomLabel = container.querySelector('#ipeZoomLabel');
+  const zoomInput = container.querySelector('#ipeZoomInput');
 
   // State
   let posX = 50, posY = 50, scale = 1;
@@ -62,7 +65,7 @@ export function createImagePositionEditor(container, options = {}) {
     img.style.transform = `translate(-50%, -50%) scale(${scale})`;
     img.style.left = posX + '%';
     img.style.top  = posY + '%';
-    zoomLabel.textContent = Math.round(scale * 100) + '%';
+    if (zoomInput) zoomInput.value = Math.round(scale * 100);
   }
 
   function clamp(val, min, max) { return Math.min(max, Math.max(min, val)); }
@@ -152,17 +155,26 @@ export function createImagePositionEditor(container, options = {}) {
 
   // ── Button controls ───────────────────────────────────
   container.querySelector('#ipeZoomIn').onclick = () => {
-    scale = clamp(scale + 0.15, minScale, maxScale);
+    scale = clamp(scale + 0.05, minScale, maxScale); // Ubah step jadi 5%
     applyTransform();
   };
   container.querySelector('#ipeZoomOut').onclick = () => {
-    scale = clamp(scale - 0.15, minScale, maxScale);
+    scale = clamp(scale - 0.05, minScale, maxScale); // Ubah step jadi 5%
     applyTransform();
   };
   container.querySelector('#ipeReset').onclick = () => {
     posX = 50; posY = 50; scale = 1;
     applyTransform();
   };
+  
+  if (zoomInput) {
+    zoomInput.addEventListener('change', (e) => {
+      let val = parseInt(e.target.value, 10);
+      if (isNaN(val)) val = 100;
+      scale = clamp(val / 100, minScale, maxScale);
+      applyTransform();
+    });
+  }
 
   // ── Public API ────────────────────────────────────────
 

@@ -35,15 +35,37 @@ function renderPrestasi() {
   grid.innerHTML = filtered.map(p => {
     const level = (p.level || '').toLowerCase();
     const color = levelColors[level] || '#1B4F8A';
+    const levelLabel = (p.level || '').toUpperCase();
+    const levelIcons = {
+      'internasional': '<i class="fas fa-globe"></i>',
+      'nasional':      '<i class="fas fa-flag"></i>',
+      'provinsi':      '<i class="fas fa-map-marker-alt"></i>',
+      'kabupaten':     '<i class="fas fa-city"></i>',
+      'kecamatan':     '<i class="fas fa-home"></i>',
+    };
+    const icon = levelIcons[level] || '<i class="fas fa-trophy"></i>';
+
+    // Terapkan zoom & posisi foto persis seperti editor admin
+    let photoStyle = 'width:100%;height:100%;object-fit:cover;display:block;';
+    if (p.photo && p.photoPos) {
+      const x = p.photoPos.x ?? 50;
+      const y = p.photoPos.y ?? 50;
+      const s = p.photoPos.scale ?? 1;
+      photoStyle = `position:absolute;left:${x}%;top:${y}%;width:auto;height:auto;min-width:100%;min-height:100%;max-width:none;transform:translate(-50%,-50%) scale(${s});`;
+    }
+
     return `
       <div class="achievement-card fade-in">
-        ${p.photo ? `<img class="achievement-medal" src="${p.photo}" alt="${p.studentName}" loading="lazy"/>` : `<div class="achievement-medal-placeholder">🏆</div>`}
+        <div class="achievement-header">
+          <div class="achievement-icon-box">${icon}</div>
+          <span class="achievement-badge" style="background:${color}18;color:${color};">
+            ${levelLabel}${p.year ? ' &bull; ' + p.year : ''}
+          </span>
+        </div>
         <div class="achievement-title">${p.title}</div>
-        <div class="achievement-name">${p.studentName || ''}</div>
-        ${p.description ? `<p style="font-size:0.78rem;color:var(--text-muted);margin:6px 0;line-height:1.5;">${p.description}</p>` : ''}
-        <span class="achievement-badge" style="background:${color}15;color:${color};">
-          ${p.level || ''} &bull; ${p.year || ''}
-        </span>
+        <div class="achievement-name">Oleh: ${p.studentName || '-'}</div>
+        ${p.description ? `<p class="achievement-desc">${p.description}</p>` : ''}
+        ${p.photo ? `<div class="achievement-photo-wrap"><img class="achievement-photo" src="${p.photo}" alt="${p.studentName || 'Prestasi'}" loading="lazy" style="${photoStyle}" /></div>` : ''}
       </div>`;
   }).join('');
   document.querySelectorAll('.fade-in').forEach(el => setTimeout(() => el.classList.add('visible'), 50));

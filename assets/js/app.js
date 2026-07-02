@@ -247,10 +247,13 @@ export async function loadContact() {
       const data = snap.data();
       // WhatsApp float button
       const wa = document.querySelector('.wa-float');
+      const waWrapper = document.getElementById('waFloatWrapper');
       if (wa && data.whatsapp) {
         const phone = data.whatsapp.replace(/\D/g, '');
         wa.href = `https://wa.me/${phone}?text=Assalamu'alaikum%2C%20saya%20ingin%20bertanya...`;
-        wa.style.display = '';
+        // Tampilkan wrapper (dengan ripple), fallback ke anchor langsung
+        if (waWrapper) waWrapper.style.display = 'flex';
+        else wa.style.display = 'flex';
       }
       return data;
     }
