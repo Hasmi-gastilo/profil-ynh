@@ -1691,17 +1691,18 @@ p {
   margin: 0;
 }
 
-/* Wrapper foto — memenuhi bagian bawah kartu (full-width) */
+/* Wrapper foto — melengkung dan diberi jarak dari tepi kartu */
 .achievement-photo-wrap {
-  width: 100%;
-  margin: 0;
+  width: calc(100% - 36px);
+  margin: 0 18px 18px;
   height: 200px;
-  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
   margin-top: auto;
-  transform: translateZ(0); /* Fix Safari border-radius overflow bug */
+  /* Fix Safari border-radius overflow bug */
+  transform: translateZ(0);
 }
 
 .achievement-photo {
@@ -3233,12 +3234,12 @@ p {
   margin: 0;
 }
 
-/* Wrapper foto — memenuhi bagian bawah kartu (full-width) */
+/* Wrapper foto — melengkung dan diberi jarak dari tepi kartu */
 .achievement-photo-wrap {
-  width: 100%;
-  margin: 0;
+  width: calc(100% - 36px);
+  margin: 0 18px 18px;
   height: 200px;
-  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
@@ -4268,7 +4269,12 @@ img { max-width: 100%; height: auto; }
   .achievement-card { padding: 0; }
   .achievement-icon-box { width: 34px; height: 34px; font-size: 0.95rem; }
   .achievement-title { font-size: 0.92rem; }
-  .achievement-photo-wrap { height: 130px; }
+  .achievement-photo-wrap {
+    height: 160px;
+    border-radius: var(--radius-lg) !important;
+    overflow: hidden !important;
+    transform: translateZ(0) !important;
+  }
 
   /* Footer */
   .footer-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -4326,7 +4332,7 @@ img { max-width: 100%; height: auto; }
   /* Achievement cards — 1 kolom di HP kecil */
   #prestasiGrid {
     grid-template-columns: 1fr !important;
-    max-width: 290px;
+    max-width: 360px;
     margin: 0 auto;
   }
 
