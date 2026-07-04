@@ -1683,14 +1683,17 @@ p {
   margin: 0;
 }
 
-/* Wrapper foto — overflow:hidden agar zoom tidak bocor keluar */
+/* Wrapper foto — full-bleed ke tepi kartu */
 .achievement-photo-wrap {
-  width: 100%;
-  height: 160px;
-  border-radius: var(--radius-md);
+  width: calc(100% + 40px);
+  margin-left: -20px;
+  margin-right: -20px;
+  margin-bottom: -18px;
+  margin-top: 6px;
+  height: 180px;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   overflow: hidden;
-  margin-top: 4px;
-  position: relative;  /* wajib agar img position:absolute berfungsi */
+  position: relative;
   flex-shrink: 0;
 }
 
@@ -3218,12 +3221,15 @@ p {
 
 /* Wrapper foto — overflow:hidden agar zoom tidak bocor keluar */
 .achievement-photo-wrap {
-  width: 100%;
+  width: calc(100% + 28px);
+  margin-left: -14px;
+  margin-right: -14px;
+  margin-bottom: -14px;
+  margin-top: 6px;
   height: 160px;
-  border-radius: var(--radius-md);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   overflow: hidden;
-  margin-top: 4px;
-  position: relative;  /* wajib agar img position:absolute berfungsi */
+  position: relative;
   flex-shrink: 0;
 }
 
