@@ -1697,13 +1697,17 @@ p {
   margin: 0 18px 18px;
   height: 200px;
   border-radius: 16px;
+  -webkit-border-radius: 16px;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
   margin-top: auto;
+  z-index: 1;
   /* Jaminan rounded corners di SEMUA browser termasuk mobile */
   transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   -webkit-mask-image: -webkit-radial-gradient(white, black);
+  -webkit-clip-path: inset(0 round 16px);
   clip-path: inset(0 round 16px);
 }
 
@@ -1711,6 +1715,8 @@ p {
   /* width/height/position/transform diset oleh JS via inline style */
   display: block;
   object-fit: cover;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
 }
 
 .achievement-medal {
@@ -3242,12 +3248,16 @@ p {
   margin: 0 18px 18px;
   height: 200px;
   border-radius: 16px;
+  -webkit-border-radius: 16px;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
   margin-top: auto;
+  z-index: 1;
   transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   -webkit-mask-image: -webkit-radial-gradient(white, black);
+  -webkit-clip-path: inset(0 round 16px);
   clip-path: inset(0 round 16px);
 }
 
@@ -4276,9 +4286,13 @@ img { max-width: 100%; height: auto; }
   .achievement-photo-wrap {
     height: 160px;
     border-radius: 16px !important;
+    -webkit-border-radius: 16px !important;
     overflow: hidden !important;
+    z-index: 1 !important;
     transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
     -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+    -webkit-clip-path: inset(0 round 16px) !important;
     clip-path: inset(0 round 16px) !important;
   }
 
