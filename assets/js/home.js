@@ -349,15 +349,17 @@ async function loadPrestasi() {
 
       return `
         <div class="achievement-card fade-in">
-          <div class="achievement-header">
-            <div class="achievement-icon-box">${icon}</div>
-            <span class="achievement-badge" style="background:${color}18;color:${color};">
-              ${levelLabel}${p.year ? ' &bull; ' + p.year : ''}
-            </span>
+          <div class="achievement-card-body">
+            <div class="achievement-header">
+              <div class="achievement-icon-box">${icon}</div>
+              <span class="achievement-badge" style="background:${color}18;color:${color};">
+                ${levelLabel}${p.year ? ' &bull; ' + p.year : ''}
+              </span>
+            </div>
+            <div class="achievement-title">${p.title || 'Prestasi'}</div>
+            <div class="achievement-name">Oleh: ${p.studentName || '-'}</div>
+            ${p.description ? `<p class="achievement-desc">${p.description}</p>` : ''}
           </div>
-          <div class="achievement-title">${p.title || 'Prestasi'}</div>
-          <div class="achievement-name">Oleh: ${p.studentName || '-'}</div>
-          ${p.description ? `<p class="achievement-desc">${p.description}</p>` : ''}
           ${p.photo ? `<div class="achievement-photo-wrap"><img class="achievement-photo" src="${p.photo}" alt="${p.studentName || 'Prestasi'}" loading="lazy" style="${photoStyle}" /></div>` : ''}
         </div>
       `;
