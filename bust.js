@@ -4,11 +4,11 @@ files.forEach(f => {
   let c = fs.readFileSync(f, 'utf8');
   let changed = false;
   if (c.includes('assets/css/style.css')) {
-    c = c.replace(/assets\/css\/style\.css(\?v=[0-9]+)?/g, 'assets/css/style.css?v=33');
+    c = c.replace(/assets\/css\/style\.css(\?v=[0-9]+)?/g, 'assets/css/style.css?v=34');
     changed = true;
   }
   if (c.includes('assets/js/app.js')) {
-    c = c.replace(/assets\/js\/app\.js(\?v=[0-9]+)?/g, 'assets/js/app.js?v=33');
+    c = c.replace(/assets\/js\/app\.js(\?v=[0-9]+)?/g, 'assets/js/app.js?v=34');
     changed = true;
   }
   if (changed) {

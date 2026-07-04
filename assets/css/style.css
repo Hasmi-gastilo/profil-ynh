@@ -1691,18 +1691,17 @@ p {
   margin: 0;
 }
 
-/* Wrapper foto — melengkung dan diberi jarak dari tepi kartu */
+/* Wrapper foto — memenuhi bagian bawah kartu (full-width) */
 .achievement-photo-wrap {
-  width: calc(100% - 36px);
-  margin: 0 18px 18px;
+  width: 100%;
+  margin: 0;
   height: 200px;
-  border-radius: var(--radius-lg);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
   margin-top: auto;
-  /* Fix Safari border-radius overflow bug */
-  transform: translateZ(0);
+  transform: translateZ(0); /* Fix Safari border-radius overflow bug */
 }
 
 .achievement-photo {
@@ -3234,12 +3233,12 @@ p {
   margin: 0;
 }
 
-/* Wrapper foto — melengkung dan diberi jarak dari tepi kartu */
+/* Wrapper foto — memenuhi bagian bawah kartu (full-width) */
 .achievement-photo-wrap {
-  width: calc(100% - 36px);
-  margin: 0 18px 18px;
+  width: 100%;
+  margin: 0;
   height: 200px;
-  border-radius: var(--radius-lg);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
@@ -4327,7 +4326,7 @@ img { max-width: 100%; height: auto; }
   /* Achievement cards — 1 kolom di HP kecil */
   #prestasiGrid {
     grid-template-columns: 1fr !important;
-    max-width: 360px;
+    max-width: 290px;
     margin: 0 auto;
   }
 
