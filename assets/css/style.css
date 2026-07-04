@@ -1691,14 +1691,15 @@ p {
   margin: 0;
 }
 
-/* Wrapper foto — full-bleed ke tepi kartu */
+/* Wrapper foto — melengkung dan diberi jarak dari tepi kartu */
 .achievement-photo-wrap {
-  width: 100%;
+  width: calc(100% - 36px);
+  margin: 0 18px 18px;
   height: 200px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
-  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
   margin-top: auto;
 }
 
@@ -3231,11 +3232,12 @@ p {
   margin: 0;
 }
 
-/* Wrapper foto — full-bleed ke tepi kartu */
+/* Wrapper foto — melengkung dan diberi jarak dari tepi kartu */
 .achievement-photo-wrap {
-  width: 100%;
+  width: calc(100% - 36px);
+  margin: 0 18px 18px;
   height: 200px;
-  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
@@ -4261,7 +4263,7 @@ img { max-width: 100%; height: auto; }
   .news-page-grid { grid-template-columns: 1fr; }
 
   /* Achievement cards */
-  .achievement-card { padding: 18px 14px; }
+  .achievement-card { padding: 0; }
   .achievement-icon-box { width: 34px; height: 34px; font-size: 0.95rem; }
   .achievement-title { font-size: 0.92rem; }
   .achievement-photo-wrap { height: 130px; }
