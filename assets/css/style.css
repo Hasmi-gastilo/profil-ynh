@@ -1701,6 +1701,8 @@ p {
   position: relative;
   flex-shrink: 0;
   margin-top: auto;
+  /* Fix Safari border-radius overflow bug */
+  transform: translateZ(0);
 }
 
 .achievement-photo {
@@ -3242,6 +3244,7 @@ p {
   position: relative;
   flex-shrink: 0;
   margin-top: auto;
+  transform: translateZ(0);
 }
 
 .achievement-medal { display: none; }
