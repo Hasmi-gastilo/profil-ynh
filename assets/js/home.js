@@ -7,7 +7,7 @@ import { db } from './firebase-init.js';
 import {
   collection, getDocs, query, orderBy, limit, where
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { initApp, formatDate, truncate } from './app.js';
+import { initApp, formatDate, truncate } from './app.js?v=8';
 import { positionToCSS } from './admin/image-position-editor.js';
 
 
@@ -69,7 +69,7 @@ function renderSlides(banners) {
     const slide = document.createElement('div');
     slide.className = `hero-slide${i === 0 ? ' active' : ''}`;
     slide.innerHTML = `
-      ${b.imageUrl ? `<img class="hero-slide-bg" src="${b.imageUrl}" alt="${b.title}" loading="${i === 0 ? 'eager' : 'lazy'}" />` : ''}
+      ${b.imageUrl ? `<img class="hero-slide-bg" src="${b.imageUrl}" alt="${b.title}" loading="${i === 0 ? 'eager' : 'lazy'}" onerror="this.style.display='none'" />` : ''}
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <div class="container">
@@ -175,7 +175,7 @@ async function loadPrincipal() {
     if (d.principalRole && role)  role.textContent  = d.principalRole;
 
     if (d.principalPhoto && imgWrap) {
-      imgWrap.outerHTML = `<img class="principal-img" src="${d.principalPhoto}" alt="${d.principalName || 'Kepala Sekolah'}" id="principalImg" />`;
+      imgWrap.outerHTML = `<img class="principal-img" src="${d.principalPhoto}" alt="${d.principalName || 'Kepala Sekolah'}" id="principalImg" onerror="this.style.display='none'" />`;
     }
   } catch (err) {
     console.warn('Could not load principal info:', err.message);

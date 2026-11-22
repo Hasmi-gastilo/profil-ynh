@@ -9,6 +9,7 @@ Setelah deploy: `https://USERNAME.github.io/NAMA-REPO/`
 ## Fitur
 
 ### Website Publik
+- 🤖 **AI Assistant (Chatbot RAG)** — Asisten informasi digital interaktif di pojok kanan bawah yang ditenagai Retrieval-Augmented Generation (RAG) berbasis data resmi lembaga dan Firebase.
 - 🏠 **Beranda** — Hero slider dinamis, statistik, berita terbaru, prestasi, galeri
 - 🏫 **Profil** — Sejarah, visi-misi, pesan kepala yayasan
 - 📰 **Berita** — Artikel dengan filter kategori, search, pagination
@@ -31,10 +32,12 @@ Setelah deploy: `https://USERNAME.github.io/NAMA-REPO/`
 | Layer | Teknologi |
 |-------|-----------|
 | Frontend | HTML5, CSS3 (Vanilla), JavaScript ES6 Modules |
+| AI / LLM | Google Gemini 2.0 Flash / OpenAI (RAG Engine) |
+| Backend Server | Node.js (HTTP / Serverless API) |
 | Database | Firebase Firestore |
 | Storage | Firebase Storage |
 | Auth | Firebase Authentication |
-| Hosting | GitHub Pages |
+| Hosting | GitHub Pages / Vercel / Node Server |
 | Icons | Font Awesome 6 |
 | Fonts | Plus Jakarta Sans, Amiri |
 | Rich Text | Quill.js (Admin only) |
@@ -53,47 +56,27 @@ profil-YNH/
 ├── faq.html                ← FAQ
 ├── kontak.html             ← Kontak
 ├── 404.html                ← Halaman 404
-├── .nojekyll               ← GitHub Pages config
-├── SETUP.md                ← Panduan setup Firebase
+├── server.js               ← Server lokal & backend AI endpoint
+├── package.json            ← Skrip npm start & info proyek
+├── .env.example            ← Template API Key AI
+├── api/
+│   ├── chat.js             ← API endpoint /api/chat
+│   └── rag.js              ← Retrieval-Augmented Generation engine
+├── data/
+│   └── knowledge-base.json ← Basis pengetahuan terstruktur LPI Nurul Huda
 ├── admin/                  ← Panel Admin (hidden)
 │   ├── login.html
 │   ├── dashboard.html
-│   ├── banner.html
-│   ├── profil.html
-│   ├── berita.html
-│   ├── berita-form.html
-│   ├── prestasi.html
-│   ├── kegiatan.html
-│   ├── galeri.html
-│   ├── ppdb.html
-│   ├── faq.html
-│   ├── kontak.html
-│   ├── media-library.html
-│   └── pengaturan.html
+│   └── ...
 └── assets/
     ├── css/
     │   ├── style.css       ← Stylesheet publik
+    │   ├── chatbot.css     ← Stylesheet AI Assistant
     │   └── admin.css       ← Stylesheet admin
-    ├── images/
-    │   └── logo.png        ← Logo sekolah
     └── js/
-        ├── firebase-config.js  ← ⚠️ ISI KONFIGURASI FIREBASE DI SINI
-        ├── firebase-init.js
-        ├── app.js              ← Shared utilities publik
-        ├── home.js
-        ├── profil.js
-        ├── berita.js
-        ├── prestasi.js
-        ├── galeri.js
-        ├── ppdb.js
-        ├── faq.js
-        ├── kontak.js
-        └── admin/
-            ├── admin-app.js    ← Shared utilities admin
-            ├── admin-login.js
-            ├── dashboard.js
-            ├── banner-admin.js
-            └── ... (semua modul admin)
+        ├── chatbot.js      ← Controller AI Assistant
+        ├── app.js          ← Shared utilities publik
+        └── ...
 ```
 
 ## ⚡ Quick Start

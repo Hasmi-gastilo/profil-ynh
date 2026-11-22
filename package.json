@@ -1,0 +1,20 @@
+{
+  "name": "profil-ynh",
+  "version": "1.1.0",
+  "description": "Website Resmi Profil Yayasan Pendidikan Islam Nurul Huda Kapedi dengan AI Assistant (RAG)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "nurul-huda",
+    "school-profile",
+    "ai-assistant",
+    "rag",
+    "gemini",
+    "firebase"
+  ],
+  "author": "LPI Nurul Huda Kapedi",
+  "license": "ISC"
+}

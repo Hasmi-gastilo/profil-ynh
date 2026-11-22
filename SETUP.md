@@ -202,17 +202,47 @@ Setelah login sebagai **Super Admin**:
 
 ---
 
-## 8. Checklist Setelah Setup
+## 8. Setup & Konfigurasi AI Assistant (Chatbot RAG)
+
+Fitur Chatbot AI Assistant LPI Nurul Huda Kapedi menggunakan arsitektur **Retrieval-Augmented Generation (RAG)**:
+- Knowledge base menggabungkan dokumen resmi kurasi di `data/knowledge-base.json` dan sinkronisasi dinamis dari Firebase Firestore (`profil`, `ppdb`, `kontak`, `faq`, `berita`, `prestasi`).
+- API Key AI tersimpan secara aman di backend (`.env`), tidak pernah bocor ke frontend.
+- Memiliki sistem **Smart RAG Fallback Engine** bawaan, sehingga dapat langsung menjawab pertanyaan secara akurat meski tanpa API Key eksternal.
+
+### Langkah Menjalankan Server & AI Assistant:
+
+1. **Konfigurasi File `.env`**:
+   Salin `.env.example` menjadi `.env` (sudah disediakan), lalu tambahkan Google Gemini API Key Anda:
+   ```env
+   PORT=3000
+   GEMINI_API_KEY=AIzaSy... (dapatkan gratis di https://aistudio.google.com/app/apikey)
+   ```
+   *(Opsional: Anda juga bisa menggunakan `OPENAI_API_KEY` jika diinginkan)*
+
+2. **Jalankan Server**:
+   ```bash
+   npm start
+   # atau
+   node server.js
+   ```
+
+3. **Akses Website**:
+   Buka [http://localhost:3000](http://localhost:3000) di browser Anda. Tombol floating AI Assistant akan otomatis muncul di pojok kanan bawah pada seluruh halaman website.
+
+---
+
+## 9. Checklist Setelah Setup
 
 - [ ] `firebase-config.js` sudah diisi dengan konfigurasi yang benar
 - [ ] Akun super admin sudah dibuat di Firebase Auth + Firestore
 - [ ] Firestore Rules sudah diatur dengan benar
 - [ ] Storage Rules sudah diatur
-- [ ] Domain GitHub Pages sudah ditambahkan di Firebase Auth
+- [ ] File `.env` sudah diatur (opsional: isi `GEMINI_API_KEY` untuk LLM generatif penuh)
+- [ ] Server dijalankan dengan `npm start` atau `node server.js`
+- [ ] AI Assistant muncul di pojok kanan bawah seluruh halaman dan dapat menjawab pertanyaan
 - [ ] Login berhasil di `/admin/login.html`
-- [ ] Upload gambar banner berhasil
 - [ ] Data tampil di halaman publik
 
 ---
 
-*Dokumentasi ini dibuat otomatis. Versi: 1.0.0*
+*Dokumentasi ini diperbarui untuk versi 1.1.0 dengan AI Assistant RAG.*

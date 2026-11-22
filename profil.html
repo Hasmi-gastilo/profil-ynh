@@ -9,6 +9,7 @@
   <title>Profil Sekolah — LPI Nurul Huda Kapedi</title>
   <link rel="icon" type="image/png" href="assets/images/logo.png" />
   <link rel="stylesheet" href="assets/css/style.css?v=36" />
+  <link rel="stylesheet" href="assets/css/chatbot.css?v=2" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" />
 </head>
@@ -309,6 +310,79 @@
     <i class="fab fa-whatsapp wa-float-icon"></i>
   </a>
 </div>
+
+<!-- Floating AI Assistant Trigger (Bottom Left) -->
+<div class="ai-chat-trigger-wrap" id="aiChatTriggerWrap">
+  <button class="ai-chat-trigger" id="aiChatTrigger" aria-label="Buka Chatbot AI Nurul Huda" aria-expanded="false" onclick="window.toggleAiChat && window.toggleAiChat()">
+    <div class="ai-trigger-pulse"></div>
+    <i class="fas fa-robot"></i>
+  </button>
+  <div class="ai-trigger-badge" id="aiTriggerBadge" onclick="window.toggleAiChat && window.toggleAiChat()" style="cursor:pointer;" title="Tanya Asisten AI">
+    Tanya AI
+  </div>
+</div>
+
+<!-- Chatbot Modal Window -->
+<div class="ai-chat-window" id="aiChatWindow" role="dialog" aria-label="AI Assistant LPI Nurul Huda" style="display:none;">
+  <div class="ai-chat-header">
+    <div class="ai-header-profile">
+      <div class="ai-header-avatar-wrap">
+        <img src="assets/images/logo.png" alt="Logo LPI" onerror="this.style.display='none'" />
+        <span class="ai-online-indicator"></span>
+      </div>
+      <div class="ai-header-info">
+        <span class="ai-header-title">AI Asisten Nurul Huda</span>
+        <span class="ai-header-sub"><i class="fas fa-circle" style="font-size:0.4rem;color:#10B981;"></i> Asisten Cerdas &amp; Informasi Resmi</span>
+      </div>
+    </div>
+    <div class="ai-header-actions">
+      <button class="ai-btn-action" id="aiBtnClear" title="Hapus riwayat percakapan" aria-label="Hapus percakapan">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+      <button class="ai-btn-action" id="aiBtnClose" title="Tutup" aria-label="Tutup jendela chat" onclick="window.toggleAiChat && window.toggleAiChat(false)">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+  <div class="ai-chat-body" id="aiChatBody"></div>
+  <div class="ai-chat-footer">
+    <form class="ai-input-form" id="aiChatForm" onsubmit="return false;">
+      <input type="text" id="aiChatInput" class="ai-chat-input" placeholder="Tanyakan info sekolah, sains, agama, teknologi..." autocomplete="off" maxlength="500" />
+      <button type="submit" class="ai-btn-send" id="aiBtnSend" aria-label="Kirim pertanyaan"><i class="fas fa-paper-plane"></i></button>
+    </form>
+    <p class="ai-footer-note">Asisten Cerdas &amp; Pengetahuan Terpadu LPI Nurul Huda Kapedi</p>
+  </div>
+</div>
+
+<script>
+  window.toggleAiChat = function(forceState) {
+    var win = document.getElementById('aiChatWindow');
+    var trigger = document.getElementById('aiChatTrigger');
+    var badge = document.getElementById('aiTriggerBadge');
+    if (!win) return;
+    var isOpen = win.classList.contains('open') || win.style.display === 'flex';
+    var nextState = typeof forceState === 'boolean' ? forceState : !isOpen;
+    if (nextState) {
+      win.classList.add('open');
+      win.style.setProperty('display', 'flex', 'important');
+      win.style.setProperty('visibility', 'visible', 'important');
+      win.style.setProperty('opacity', '1', 'important');
+      win.style.setProperty('pointer-events', 'auto', 'important');
+      win.style.setProperty('z-index', '999999', 'important');
+      if (badge) badge.style.display = 'none';
+      if (trigger) trigger.setAttribute('aria-expanded', 'true');
+      if (window.renderAiChat) window.renderAiChat();
+      setTimeout(function() { var input = document.getElementById('aiChatInput'); if (input) input.focus(); }, 100);
+    } else {
+      win.classList.remove('open');
+      win.style.setProperty('display', 'none', 'important');
+      win.style.setProperty('visibility', 'hidden', 'important');
+      win.style.setProperty('opacity', '0', 'important');
+      win.style.setProperty('pointer-events', 'none', 'important');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    }
+  };
+</script>
 
   <script type="module" src="assets/js/profil.js?v=5"></script>
 </body>
