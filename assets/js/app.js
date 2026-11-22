@@ -6,7 +6,7 @@
 
 import { db } from './firebase-init.js';
 import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { initChatbot } from './chatbot.js?v=8';
+import { initChatbot } from './chatbot.js?v=9';
 
 // ── DARK MODE ──────────────────────────────────────────────
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');

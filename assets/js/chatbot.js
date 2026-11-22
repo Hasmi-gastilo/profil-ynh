@@ -3,6 +3,8 @@
 // Yayasan Pendidikan Islam Nurul Huda Kapedi
 // ============================================================
 
+import { generateClientRAGResponse } from './client-rag.js?v=9';
+
 const STORAGE_KEY = 'ynh_ai_chat_history';
 const API_ENDPOINT = typeof window !== 'undefined' && window.AI_CHAT_ENDPOINT ? window.AI_CHAT_ENDPOINT : '/api/chat';
 
@@ -278,31 +280,48 @@ async function handleSendMessage(customText = null) {
   if (sendBtn) sendBtn.disabled = true;
   showSearching();
 
+  let replyText = '';
+  let sources = [];
+
   try {
     const payload = {
       message: text,
       history: chatHistory.slice(-6).map(m => ({ role: m.role, content: m.content }))
     };
 
-    const response = await fetch(API_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(20000)
-    });
+    // 1. Coba hubungi backend API (jika berjalan di server Node.js atau Vercel)
+    try {
+      const response = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(5000)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.reply) {
+          replyText = data.reply;
+          sources = data.sources || [];
+        }
+      }
+    } catch (apiErr) {
+      // Backend offline atau di GitHub Pages static hosting
+      console.log('[AI Assistant] Backend offline, beralih ke Client-Side Smart RAG Engine.');
+    }
+
+    // 2. Jika backend tidak tersedia (misal di GitHub Pages), jalankan Client-Side Smart RAG Engine!
+    if (!replyText) {
+      // Sedikit jeda agar animasi pencarian ala Claude tampil natural
+      await new Promise(r => setTimeout(r, 600));
+      const clientResult = generateClientRAGResponse(text, chatHistory);
+      replyText = clientResult.reply;
+      sources = clientResult.sources || ['Basis Data Resmi Lembaga'];
+    }
 
     hideSearching();
 
-    if (!response.ok) {
-      throw new Error(`Server status ${response.status}`);
-    }
-
-    const data = await response.json();
-    const replyText = data.reply || 'Mohon maaf, tidak dapat memproses jawaban saat ini.';
-    const sources = data.sources || [];
     const aiTime = getCurrentTime();
-
-    // Add assistant message to state & UI
     chatHistory.push({ role: 'assistant', content: replyText, time: aiTime, sources: sources });
     appendMessage('assistant', replyText, aiTime, sources, true);
     saveHistory();
@@ -311,10 +330,13 @@ async function handleSendMessage(customText = null) {
     hideSearching();
     console.error('[Chatbot Error]', err);
 
-    const errorMsg = 'Mohon maaf sebesar-besarnya atas ketidaknyamanannya, saat ini sedang terjadi kendala sambungan ke sistem layanan informasi kami. 🙏\n\nUntuk mendapatkan respon cepat, Bapak/Ibu/Kakak dapat langsung menghubungi sekretariat resmi kami melalui WhatsApp di [+62 815-5400-8683](https://wa.me/6281554008683). Tim kami siap melayani Anda dengan senang hati. 😊';
+    // Fallback terakhir jika terjadi error runtime tak terduga
+    const clientResult = generateClientRAGResponse(text, chatHistory);
+    const fallbackReply = clientResult.reply || 'Mohon maaf atas ketidaknyamanannya, silakan hubungi WhatsApp kami di +62 815-5400-8683. 🙏';
+    const fallbackSources = clientResult.sources || ['Sekretariat Yayasan'];
     const errTime = getCurrentTime();
-    chatHistory.push({ role: 'assistant', content: errorMsg, time: errTime });
-    appendMessage('assistant', errorMsg, errTime);
+    chatHistory.push({ role: 'assistant', content: fallbackReply, time: errTime, sources: fallbackSources });
+    appendMessage('assistant', fallbackReply, errTime, fallbackSources);
     saveHistory();
   } finally {
     isThinking = false;
