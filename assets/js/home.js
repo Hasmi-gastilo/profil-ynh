@@ -7,7 +7,7 @@ import { db } from './firebase-init.js';
 import {
   collection, getDocs, query, orderBy, limit, where
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { initApp, formatDate, truncate } from './app.js?v=9';
+import { initApp, formatDate, truncate } from './app.js?v=12';
 import { positionToCSS } from './admin/image-position-editor.js';
 
 

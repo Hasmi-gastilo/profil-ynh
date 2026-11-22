@@ -3,7 +3,7 @@
 // Yayasan Pendidikan Islam Nurul Huda Kapedi
 // ============================================================
 
-import { generateClientRAGResponse } from './client-rag.js?v=9';
+import { generateClientRAGResponse } from './client-rag.js?v=12';
 
 const STORAGE_KEY = 'ynh_ai_chat_history';
 const API_ENDPOINT = typeof window !== 'undefined' && window.AI_CHAT_ENDPOINT ? window.AI_CHAT_ENDPOINT : '/api/chat';

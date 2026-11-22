@@ -338,17 +338,54 @@
 
 .ai-message.user .ai-msg-bubble {
   background: linear-gradient(135deg, #1B4F8A 0%, #2563EB 100%);
-  color: #ffffff;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   border-bottom-right-radius: 4px;
-  box-shadow: 0 4px 12px rgba(27, 79, 138, 0.2);
+  box-shadow: 0 4px 12px rgba(27, 79, 138, 0.25);
+}
+
+.ai-message.user .ai-msg-bubble,
+.ai-message.user .ai-msg-bubble p,
+.ai-message.user .ai-msg-bubble span,
+.ai-message.user .ai-msg-bubble div,
+.ai-message.user .ai-msg-bubble strong,
+.ai-message.user .ai-msg-bubble em,
+.ai-message.user .ai-msg-bubble * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-theme="light"] .ai-message.user .ai-msg-bubble,
+[data-theme="light"] .ai-message.user .ai-msg-bubble p,
+[data-theme="light"] .ai-message.user .ai-msg-bubble span,
+[data-theme="light"] .ai-message.user .ai-msg-bubble * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-theme="dark"] .ai-message.user .ai-msg-bubble,
+[data-theme="dark"] .ai-message.user .ai-msg-bubble p,
+[data-theme="dark"] .ai-message.user .ai-msg-bubble span,
+[data-theme="dark"] .ai-message.user .ai-msg-bubble * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .ai-message.assistant .ai-msg-bubble {
   background: #ffffff;
-  color: #1E293B;
+  color: #1E293B !important;
+  -webkit-text-fill-color: #1E293B !important;
   border: 1px solid #E2E8F0;
   border-bottom-left-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.ai-message.assistant .ai-msg-bubble p,
+.ai-message.assistant .ai-msg-bubble span,
+.ai-message.assistant .ai-msg-bubble div,
+.ai-message.assistant .ai-msg-bubble li {
+  color: #1E293B !important;
+  -webkit-text-fill-color: #1E293B !important;
 }
 
 /* Formatted Content inside AI Bubble */
@@ -583,7 +620,16 @@
 [data-theme="dark"] .ai-message.assistant .ai-msg-bubble {
   background: #1E293B;
   border-color: #334155;
-  color: #F1F5F9;
+  color: #F1F5F9 !important;
+  -webkit-text-fill-color: #F1F5F9 !important;
+}
+
+[data-theme="dark"] .ai-message.assistant .ai-msg-bubble p,
+[data-theme="dark"] .ai-message.assistant .ai-msg-bubble span,
+[data-theme="dark"] .ai-message.assistant .ai-msg-bubble div,
+[data-theme="dark"] .ai-message.assistant .ai-msg-bubble li {
+  color: #F1F5F9 !important;
+  -webkit-text-fill-color: #F1F5F9 !important;
 }
 
 [data-theme="dark"] .ai-searching-box {

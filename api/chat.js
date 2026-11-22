@@ -147,12 +147,14 @@ async function handleChat(reqBody) {
   const systemPrompt = buildSystemPrompt(chunks, institution);
 
   let sourceTitles = [];
-  if (intent === 'INSTITUTIONAL' || maxScore >= 8) {
+  if (intent === 'INSTITUTIONAL' && maxScore >= 6) {
     sourceTitles = chunks.filter(c => c.score >= 5).map(c => c.title);
+  } else if (maxScore >= 8) {
+    sourceTitles = chunks.filter(c => c.score >= 6).map(c => c.title);
   } else if (intent === 'GENERAL_KNOWLEDGE') {
     sourceTitles = ['Wawasan Umum & Ensiklopedia Digital'];
   } else {
-    sourceTitles = chunks.slice(0, 2).map(c => c.title);
+    sourceTitles = ['Khazanah Pengetahuan Terpadu & Sains'];
   }
 
   // 2. Identify configured LLM
